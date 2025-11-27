@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/Button";
 import { Menu, X, Sparkles } from "lucide-react";
 import { useState } from "react";
 
@@ -19,15 +19,16 @@ function Navbar({ currentPage, onNavigate }) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
+          {/* TODO: Replace with actual logo  */}
           <button 
-            onClick={() => onNavigate("home")}
+            onClick={() => onNavigate("/")}
             className="flex items-center gap-2 group"
           >
             <div className="relative">
               <div className="w-10 h-10 bg-linear-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-red-200 transition-shadow">
-                <Sparkles className="w-5 h-5 text-white" />
+                {/* <Sparkles className="w-5 h-5 text-white" /> */}
               </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-linear-to-br from-red-400 to-red-500 rounded-full animate-pulse" />
+              {/* <div className="absolute -top-1 -right-1 w-3 h-3 bg-linear-to-br from-red-400 to-red-500 rounded-full animate-pulse" /> */}
             </div>
             <div className="flex flex-col items-start">
               <span className="font-montserrat font-bold text-oxford-blue text-lg">Startup</span>
