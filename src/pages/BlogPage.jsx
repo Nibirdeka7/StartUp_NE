@@ -110,7 +110,7 @@ export function BlogPage() {
         </div>
 
         {/* Featured Section */}
-        <div className="mb-8 md:mb-12">
+        {/* <div className="mb-8 md:mb-12">
           <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6 font-montserrat">
             Featured Articles
           </h2>
@@ -160,7 +160,7 @@ export function BlogPage() {
               </Card>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Category Toggle */}
         <div className="mb-8 md:mb-12">

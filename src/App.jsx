@@ -8,6 +8,7 @@ import { ServicesPage } from './pages/Services.jsx'
 import { StartupsPage } from './pages/Startups.jsx'
 import { BlogPage } from './pages/BlogPage.jsx'
 import { BlogPostPage } from './pages/BlogPagePost.jsx'
+import { ConnectPage } from './pages/Connect.jsx'
 const App = () => {
   return (
     <div>
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/connect" element={<ConnectPage />} />
         </Routes>
         <Footer />
      
