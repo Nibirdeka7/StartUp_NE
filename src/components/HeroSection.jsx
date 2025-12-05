@@ -13,7 +13,7 @@ export function HeroSection({ onNavigate }) {
         <div className="absolute -bottom-20 left-40 w-96 h-96 bg-red-50 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000" />
       </div>
 
-      <div className="relative container mx-auto px-4 py-10 md:py-24">
+      <div className="relative container mx-auto px-4 py-12 md:py-10">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -22,7 +22,8 @@ export function HeroSection({ onNavigate }) {
           className="flex justify-center mb-12"
         >
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/80 backdrop-blur-lg border border-red-200 shadow-lg">
-            <Sparkles className="w-5 h-5 text-red-600" />
+            {/* <Sparkles className="w-5 h-5 text-red-600" /> */}
+            <img src="Startup_NE.png" alt="Startup NE Logo" className="w-7 h-7"/>
             <span className="text-base font-medium text-slate-800 font-poppins">
               Empowering Northeast Innovation
             </span>
