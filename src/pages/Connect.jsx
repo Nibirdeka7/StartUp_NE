@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
-import { Input } from "../components/ui/input";
+import { Input } from "../components/ui/Input";
 import { Users, MessageCircle, Search, MapPin, Briefcase, UserPlus, AlertTriangle, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion"; // Make sure to install framer-motion or adjust imports if using 'motion/react'
 
