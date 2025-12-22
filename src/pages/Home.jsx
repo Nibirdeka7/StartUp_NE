@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <HeroSection onNavigate={(section) => console.log(`Navigate to ${section}`)} />
-      <TrustedBySection/>
+      {/* <TrustedBySection/> */}
       <BookShowcaseSection/>
       <FeaturedStartups/>
       <ServicesGrid/>

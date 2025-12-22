@@ -1,17 +1,21 @@
 import { Button } from "../components/ui/Button";
-import { ArrowRight, Sparkles, Play } from "lucide-react";
+import { ArrowRight, Sparkles, Play, Grid } from "lucide-react";
 import { NEIndiaMap } from "../components/NEIndiaMap";
 import { motion } from "motion/react";
+import { GridBeam } from "./ui/GridBeam";
 
 export function HeroSection({ onNavigate }) {
   return (
+    
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-white via-red-50 to-blue-50">
       {/* Background decorations */}
+      <GridBeam className="sm:pl-16 pl-4">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-96 h-96 bg-red-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
         <div className="absolute top-40 right-10 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
         <div className="absolute -bottom-20 left-40 w-96 h-96 bg-red-50 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000" />
       </div>
+      
 
       <div className="relative container mx-auto px-4 py-12 md:py-10">
         {/* Badge */}
@@ -131,7 +135,7 @@ export function HeroSection({ onNavigate }) {
           </motion.div>
         </div>
       </div>
-
+     
       <style>{`
         @keyframes blob {
           0% { transform: translate(0px, 0px) scale(1); }
@@ -149,7 +153,10 @@ export function HeroSection({ onNavigate }) {
           animation-delay: 4s;
         }
       `}</style>
+      </GridBeam>
     </div>
+     
+    
   );
 }
 
