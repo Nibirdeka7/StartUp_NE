@@ -5,8 +5,8 @@ import { canUserCreateBlog } from "../utils/blogUtils";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Input } from "../components/ui/Input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
 import { 
   BookOpen, Eye, MessageCircle, Share2, Facebook, Twitter, Send, Sparkles, 
   Calendar, User, ChevronRight, TrendingUp, Search, Filter, Plus, Loader2,

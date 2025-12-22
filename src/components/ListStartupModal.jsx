@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../components/ui/dialog";
-import { Button } from "../components/ui/button";
+import { Button } from "../components/ui/Button";
 import { Separator } from "../components/ui/separator";
 import { Building2, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 

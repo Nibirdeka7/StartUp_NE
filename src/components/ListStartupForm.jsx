@@ -15,7 +15,7 @@ import {
 import { Input } from "../components/ui/Input";
 import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
-import { Button } from "../components/ui/button";
+import { Button } from "../components/ui/Button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import uploadStartupLogo from "../utils/uploadLogo";
 import { supabase } from "../utils/supabaseClient";

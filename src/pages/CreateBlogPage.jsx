@@ -6,9 +6,9 @@ import { uploadToCloudinary } from "../utils/cloudinary"; // Import your Cloudin
 import { canUserCreateBlog, canUserEditBlog, generateSlug, calculateReadTime } from "../utils/blogUtils";
 import { Card, CardContent } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { Input } from "../components/ui/input";
+import { Input } from "../components/ui/Input";
 import { Textarea } from "../components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
 import { Label } from "../components/ui/label";
 import { 
   ArrowLeft, Save, Eye, Upload, X, Loader2, 
