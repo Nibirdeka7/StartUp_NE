@@ -9,6 +9,11 @@ import { StartupsPage } from './pages/Startups.jsx'
 import { BlogPage } from './pages/BlogPage.jsx'
 import { BlogPostPage } from './pages/BlogPagePost.jsx'
 import { ConnectPage } from './pages/Connect.jsx'
+import  { StartupDetail } from './pages/IndividualStartups.jsx'
+import AdminDashboard from './pages/Admin.jsx'
+import { AdminRoute } from './components/AdminRoute.jsx'
+import { MyBlogsPage } from './pages/MyBlogsPage.jsx'
+import { CreateBlogPage } from './pages/CreateBlogPage.jsx'
 const App = () => {
   return (
     <div>
@@ -18,11 +23,17 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/startup" element={<StartupsPage />} />
-          <Route path="/blogs" element={<BlogPage />} />
+          <Route path="/startups" element={<StartupsPage />} />
+          <Route path="/startup/:id" element={ <StartupDetail /> } />  // TODO: Create Startup Detail Page
           <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/blog/my-blogs" element={<MyBlogsPage />} />
+          <Route path="/blog/create" element={<CreateBlogPage />} />
+          <Route path="/blog/edit/:id" element={<CreateBlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/admin" element={ <AdminRoute>
+                                            <AdminDashboard />
+                                          </AdminRoute>} />
         </Routes>
         <Footer />
      

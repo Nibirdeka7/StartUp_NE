@@ -28,19 +28,19 @@ export function AboutPage() {
 
   const team = [
     {
-      name: "Gourangon Kumar",
+      name: "Gourangon Gogoi",
       role: "Founder & CEO",
-      avatar: "👨‍💼",
+      avatar: "",
     },
     {
-      name: "John Sharma",
+      name: "John Doe",
       role: "Head of Operations",
-      avatar: "👩‍💼",
+      avatar: "",
     },
     {
       name: "Nibir Deka",
       role: "Tech Team",
-      avatar: "👨‍💻",
+      avatar: "",
     }
   ];
 
