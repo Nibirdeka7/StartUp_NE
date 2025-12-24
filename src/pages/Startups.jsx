@@ -25,6 +25,7 @@ import { Input } from "../components/ui/Input";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
+import { useNavigate } from "react-router-dom";
 
 // Helper functions moved outside the component so they can be accessed by StartupCard
 const getStageColor = (stage) => {
@@ -55,7 +56,7 @@ function StartupCard({ startup }) {
   const [imageError, setImageError] = useState(false);
   const [logoUrl, setLogoUrl] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
-  
+  const navigate = useNavigate();
   // Fetch logo URL
   useEffect(() => {
     const fetchLogoUrl = async () => {
@@ -173,7 +174,7 @@ function StartupCard({ startup }) {
         {/* Action Buttons */}
         <div className="flex gap-2 pt-4 border-t border-slate-100">
           <Button
-            onClick={() => window.location.href = `/startup/${startup.id}`}
+            onClick={() => navigate(`/startup/${startup.id}`)}
             className="flex-1 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 gap-2"
           >
             View Details
