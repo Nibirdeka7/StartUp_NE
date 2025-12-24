@@ -3,8 +3,11 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { MapPin, TrendingUp, ExternalLink, Building2, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
+
 
 export function FeaturedStartups({ onNavigate }) {
+  const navigate = useNavigate();
   const startups = [
     {
       name: "AgroTech NE",
@@ -134,7 +137,7 @@ export function FeaturedStartups({ onNavigate }) {
         >
           <Button
             size="lg"
-            onClick={() => onNavigate("startups")}
+            onClick={() => navigate("/startups")}
             className="bg-gradient-to-r from-red-700 to-red-900 hover:from-red-800 hover:to-red-950 text-white shadow-2xl shadow-red-300 hover:shadow-3xl hover:shadow-red-400 transition-all duration-300 group font-poppins font-semibold px-8 py-4 text-lg rounded-2xl"
           >
             Explore All Startups

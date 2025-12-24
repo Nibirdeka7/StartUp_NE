@@ -57,6 +57,7 @@ function StartupCard({ startup }) {
   const [logoUrl, setLogoUrl] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const navigate = useNavigate();
+
   // Fetch logo URL
   useEffect(() => {
     const fetchLogoUrl = async () => {
@@ -136,7 +137,7 @@ function StartupCard({ startup }) {
                 variant="ghost"
                 size="sm"
                 className="rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => window.location.href = `/startup/${startup.id}`}
+                onClick={() => navigate(`/startup/${startup.id}`)}
               >
                 <Eye className="w-4 h-4" />
               </Button>
@@ -524,7 +525,7 @@ export function StartupsPage() {
             </p>
             <Button 
               className="bg-white text-red-600 hover:bg-red-50 font-semibold px-6 md:px-8 py-3 md:py-4 rounded-xl inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
-              onClick={() => window.location.href = "/submit-startup"}
+              onClick={() => navigate("/submit-startup")}
             >
               List Your Startup
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
