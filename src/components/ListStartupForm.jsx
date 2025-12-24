@@ -16,7 +16,7 @@ import { Input } from "../components/ui/Input";
 import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
 import { Button } from "../components/ui/Button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Smartphone } from "lucide-react";
 import uploadStartupLogo from "../utils/uploadLogo";
 import { supabase } from "../utils/supabaseClient";
 
@@ -34,12 +34,11 @@ const formSchema = z.object({
   // Step 2: Funding & Strategy
   stage: z.enum(["Ideation", "MVP", "Revenue", "Series A+", "Acquired"], { required_error: "Please select a stage." }),
   sector: z.string().min(2, "Sector is required."),
-  currentValuation: z.string().optional(), // Optional since it might be sensitive/not yet calculated
+  currentValuation: z.string().optional(),
   fundedBy: z.string().optional(),
   
   // Step 3: Media
   website: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  // Individual Social Links
   facebook: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   instagram: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   linkedin: z.string().url("Must be a valid URL").optional().or(z.literal("")),
@@ -61,7 +60,6 @@ const formSchema = z.object({
   // Step 4: 
   feedback: z.string().min(10, "Please share a brief testimonial (min 10 characters)."),
 }).refine((data) => {
-  // Logic: One of these MUST be present
   return !!(data.facebook || data.instagram || data.linkedin || data.twitter);
 }, {
   message: "At least one social media link is mandatory",
@@ -69,7 +67,6 @@ const formSchema = z.object({
 });
 
 const stages = ["Ideation", "MVP", "Revenue", "Series A+", "Acquired"];
-const initialSectors = ["FinTech", "HealthTech", "AgriTech", "EdTech", "E-commerce", "Other"];
 
 // The Multi-Step Form Component
 export function ListStartupForm({ onSubmitSuccess }) {
@@ -98,16 +95,14 @@ export function ListStartupForm({ onSubmitSuccess }) {
 
   const { trigger, getValues } = form;
 
-  // --- Step Navigation Logic ---
-
   const handleNextStep = async () => {
     let fieldsToValidate = [];
     if (step === 1) {
       fieldsToValidate = [
-        "name", "founderName", "startupEmail", "contact", "location", "description"
+        "name", "founderName", "designation", "startupEmail", "contact", "location", "description"
       ];
     } else if (step === 2) {
-      fieldsToValidate = ["stage", "sector"]; // Valuation/FundedBy are optional
+      fieldsToValidate = ["stage", "sector"];
     } else if (step === 3) {
       fieldsToValidate = ["website", "facebook", "instagram", "linkedin", "twitter"];
     }
@@ -117,8 +112,8 @@ export function ListStartupForm({ onSubmitSuccess }) {
     if (isValid && step < totalSteps) {
       setStep((prev) => prev + 1);
       setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 10); // Scroll to top of modal for new step
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 10);
     }
   };
 
@@ -138,21 +133,19 @@ export function ListStartupForm({ onSubmitSuccess }) {
       if (authError || !user) {
         throw new Error("User not authenticated");
       }
+      
   const isValid = await trigger();
   if (!isValid) return;
 
   try {
-    // 1. Upload logo
     let logoPath = null;
     if (data.logo instanceof File) {
       logoPath = await uploadStartupLogo(data.logo, data.name);
     }
 
-    // 2. Prepare final payload
     const payload = {
       user_id: user.id, 
       name: data.name,
-
       startup_email: data.startupEmail,
       contact: data.contact,
       location: data.location,
@@ -168,8 +161,7 @@ export function ListStartupForm({ onSubmitSuccess }) {
       twitter: data.twitter || null,
       logo_path: logoPath, 
       feedback: data.feedback,
-
-       founders: [
+      founders: [
         {
           name: data.founderName,
           designation: data.designation,
@@ -177,7 +169,6 @@ export function ListStartupForm({ onSubmitSuccess }) {
       ],
     };
 
-    // 3. Insert into Supabase table
     const { error } = await supabase
       .from("startups")
       .insert(payload);
@@ -190,103 +181,226 @@ export function ListStartupForm({ onSubmitSuccess }) {
   }
 };
 
-
-  // --- Render Functions for Each Step ---
+  // --- Mobile-optimized Render Functions ---
 
   const renderStep1 = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Startup Name</FormLabel>
-            <FormControl>
-              <Input placeholder="TechInnovate Solutions" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="founderName"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Founder Name</FormLabel>
-            <FormControl>
-              <Input placeholder="Priya Sharma" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
+    <div className="space-y-4 sm:space-y-6">
+      <div className="text-sm text-gray-500 mb-2 sm:hidden flex items-center gap-2">
+        <Smartphone size={16} />
+        <span>Fill all fields to continue</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-2">
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Startup Name *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="TechInnovate Solutions" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="founderName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Founder Name *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Priya Sharma" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
           control={form.control}
           name="designation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-poppins text-oxford-blue">Designation</FormLabel>
-              <FormControl><Input placeholder="CEO / Founder" {...field} /></FormControl>
-              <FormMessage />
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Designation *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="CEO / Founder" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
             </FormItem>
           )}
         />
-      <FormField
-        control={form.control}
-        name="startupEmail"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Startup Email</FormLabel>
-            <FormControl>
-              <Input placeholder="contact@techinnovate.com" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="contact"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Contact Number</FormLabel>
-            <FormControl>
-              <Input placeholder="9876543210" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="location"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Headquarters Location (City, State)</FormLabel>
-            <FormControl>
-              <Input placeholder="Guwahati, Assam" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <div className="md:col-span-2">
+        
         <FormField
           control={form.control}
-          name="description"
+          name="startupEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-poppins text-oxford-blue">Detailed Description</FormLabel>
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Startup Email *</FormLabel>
               <FormControl>
-                <Textarea 
-                  placeholder="Describe what your startup does, its mission, and its impact in the Northeast."
-                  rows={5}
-                  className="resize-none"
-                  {...field}
+                <Input 
+                  placeholder="contact@techinnovate.com" 
+                  type="email"
+                  className="h-10 sm:h-auto"
+                  {...field} 
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="contact"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Contact Number *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="9876543210" 
+                  type="tel"
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Headquarters Location *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Guwahati, Assam" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <div className="sm:col-span-2">
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Detailed Description *</FormLabel>
+                <div className="text-xs text-gray-500 mb-1">(Minimum 50 characters)</div>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Describe what your startup does, its mission, and its impact in the Northeast."
+                    rows={4}
+                    className="resize-none min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className="text-xs sm:text-sm" />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderStep2 = () => (
+    <div className="space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <FormField
+          control={form.control}
+          name="stage"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-1">
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Current Stage *</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="h-10 sm:h-auto">
+                    <SelectValue placeholder="Select your current stage" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {stages.map((stage) => (
+                    <SelectItem key={stage} value={stage} className="text-sm sm:text-base">{stage}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="sector"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-1">
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Primary Sector *</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="e.g., AgriTech, Tourism, EdTech" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="currentValuation"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-1">
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Current Valuation (Optional)</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="₹5 Crore (approx.)" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="fundedBy"
+          render={({ field }) => (
+            <FormItem className="sm:col-span-1">
+              <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">Funded By (Optional)</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="e.g., Angel Investors, SIDBI" 
+                  className="h-10 sm:h-auto"
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-xs sm:text-sm" />
             </FormItem>
           )}
         />
@@ -294,167 +408,195 @@ export function ListStartupForm({ onSubmitSuccess }) {
     </div>
   );
 
-  const renderStep2 = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <FormField
-        control={form.control}
-        name="stage"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Current Stage</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your current stage" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {stages.map((stage) => (
-                  <SelectItem key={stage} value={stage}>{stage}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="sector"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Primary Sector</FormLabel>
-            <FormControl>
-              <Input placeholder="e.g., AgriTech, Tourism, EdTech" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="currentValuation"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Current Valuation (Optional)</FormLabel>
-            <FormControl>
-              <Input placeholder="₹5 Crore (approx.)" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="fundedBy"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue">Funded By (Optional)</FormLabel>
-            <FormControl>
-              <Input placeholder="e.g., Angel Investors, SIDBI, Self-Funded" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
-  );
-
   const renderStep3 = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <FormField control={form.control} name="website" render={({ field }) => (
-        <FormItem><FormLabel>Website</FormLabel><FormControl><Input placeholder="https://..." {...field} /></FormControl><FormMessage /></FormItem>
-      )} />
-      <FormField control={form.control} name="linkedin" render={({ field }) => (
-        <FormItem><FormLabel>LinkedIn</FormLabel><FormControl><Input placeholder="LinkedIn URL" {...field} /></FormControl><FormMessage /></FormItem>
-      )} />
-      <FormField control={form.control} name="facebook" render={({ field }) => (
-        <FormItem><FormLabel>Facebook</FormLabel><FormControl><Input placeholder="Facebook URL" {...field} /></FormControl><FormMessage /></FormItem>
-      )} />
-      <FormField control={form.control} name="instagram" render={({ field }) => (
-        <FormItem><FormLabel>Instagram</FormLabel><FormControl><Input placeholder="Instagram URL" {...field} /></FormControl><FormMessage /></FormItem>
-      )} />
-      <FormField control={form.control} name="twitter" render={({ field }) => (
-        <FormItem><FormLabel>Twitter</FormLabel><FormControl><Input placeholder="Twitter URL" {...field} /></FormControl><FormMessage /></FormItem>
-      )} />
-      <FormField control={form.control} name="logo" render={({ field }) => (
-        <FormItem className="md:col-span-2"><FormLabel>Logo</FormLabel><FormControl><Input type="file" onChange={(e) => field.onChange(e.target.files?.[0])} /></FormControl><FormMessage /></FormItem>
-      )} />
+    <div className="space-y-4 sm:space-y-6">
+      <div className="text-sm text-gray-500 mb-2">
+        At least one social media link is required
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <FormField control={form.control} name="website" render={({ field }) => (
+          <FormItem className="sm:col-span-2">
+            <FormLabel className="font-poppins text-sm sm:text-base">Website (Optional)</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="https://yourstartup.com" 
+                className="h-10 sm:h-auto text-sm"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="linkedin" render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-poppins text-sm sm:text-base">LinkedIn</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="LinkedIn URL" 
+                className="h-10 sm:h-auto text-sm"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="facebook" render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-poppins text-sm sm:text-base">Facebook</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Facebook URL" 
+                className="h-10 sm:h-auto text-sm"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="instagram" render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-poppins text-sm sm:text-base">Instagram</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Instagram URL" 
+                className="h-10 sm:h-auto text-sm"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="twitter" render={({ field }) => (
+          <FormItem>
+            <FormLabel className="font-poppins text-sm sm:text-base">Twitter</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Twitter URL" 
+                className="h-10 sm:h-auto text-sm"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="logo" render={({ field }) => (
+          <FormItem className="sm:col-span-2">
+            <FormLabel className="font-poppins text-sm sm:text-base">Logo (Optional)</FormLabel>
+            <div className="text-xs text-gray-500 mb-1">PNG, JPG, or WEBP (max 1MB)</div>
+            <FormControl>
+              <div className="flex flex-col gap-2">
+                <Input 
+                  type="file" 
+                  accept=".png,.jpg,.jpeg,.webp"
+                  className="h-10 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
+                  onChange={(e) => field.onChange(e.target.files?.[0])}
+                />
+                {field.value && (
+                  <div className="text-xs text-green-600">
+                    ✓ File selected: {field.value.name}
+                  </div>
+                )}
+              </div>
+            </FormControl>
+            <FormMessage className="text-xs sm:text-sm" />
+          </FormItem>
+        )} />
+      </div>
     </div>
   );
 
   const renderStep4 = () => (
-    <div className="space-y-4">
+    <div className="space-y-4 sm:space-y-6">
       <FormField
         control={form.control}
         name="feedback"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="font-poppins text-oxford-blue text-lg">Your Feedback</FormLabel>
-            <p className="text-sm text-gray-500 mb-2">How do you feel about this Innovation Startup Northeast initiative? Your response will be featured in our testimonial section.</p>
+            <FormLabel className="font-poppins text-lg sm:text-xl text-oxford-blue">Your Feedback</FormLabel>
+            <p className="text-sm text-gray-500 mb-3 sm:mb-4">
+              How do you feel about this Innovation Startup Northeast initiative? 
+              Your response will be featured in our testimonial section.
+            </p>
             <FormControl>
               <Textarea 
                 placeholder="Share your experience or thoughts with us..." 
-                rows={6} 
-                className="resize-none" 
+                rows={5}
+                className="resize-none min-h-[150px] sm:min-h-[180px] text-sm sm:text-base"
                 {...field} 
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs sm:text-sm" />
           </FormItem>
         )}
       />
     </div>
   );
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Progress Indicator */}
-        <div className="flex justify-between items-center text-sm font-poppins">
-          <span className="font-semibold text-red-700">Step {step} of {totalSteps}</span>
-          <div className="flex space-x-2">
-            {[1, 2, 3, 4].map((s) => (
-              <div
-                key={s}
-                className={`w-10 h-1 rounded-full ${
-                  s <= step ? "bg-red-600" : "bg-gray-200"
-                }`}
-              />
-            ))}
+        {/* Mobile-optimized Progress Indicator */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+          <div className="flex items-center gap-2">
+            <span className="font-poppins text-sm sm:text-base font-semibold text-red-700">
+              Step {step} of {totalSteps}
+            </span>
+            <div className="sm:hidden bg-red-100 text-red-700 text-xs px-2 py-1 rounded">
+              {step === 1 && "Basic Info"}
+              {step === 2 && "Funding"}
+              {step === 3 && "Media"}
+              {step === 4 && "Feedback"}
+            </div>
+          </div>
+          
+          <div className="w-full sm:w-auto">
+            <div className="flex space-x-1 sm:space-x-2 justify-center sm:justify-end">
+              {[1, 2, 3, 4].map((s) => (
+                <div
+                  key={s}
+                  className={`h-1.5 sm:h-1 rounded-full transition-all duration-300 ${
+                    s <= step 
+                      ? "bg-red-600 flex-grow" 
+                      : "bg-gray-200 flex-grow"
+                  } ${s === step ? 'w-8 sm:w-10' : 'w-6 sm:w-8'}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Render Current Step */}
-          <div onClick={(e) => e.stopPropagation()}>
-    {/* Render Current Step */}
-            <div className="space-y-4">
-              {step === 1 && renderStep1()}
-              {step === 2 && renderStep2()}
-              {step === 3 && renderStep3()}
-              {step === 4 && renderStep4()}
-            </div>
-          </div>
+        <div className="space-y-4 sm:space-y-6">
+          {step === 1 && renderStep1()}
+          {step === 2 && renderStep2()}
+          {step === 3 && renderStep3()}
+          {step === 4 && renderStep4()}
+        </div>
 
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between pt-4">
+        {/* Mobile-optimized Navigation Buttons */}
+        <div className="flex flex-col-reverse sm:flex-row justify-between gap-3 sm:gap-0 pt-4 sm:pt-6 border-t">
           <Button
             type="button"
             variant="outline"
             onClick={handlePrevStep}
             disabled={step === 1 || form.formState.isSubmitting}
-            className="font-poppins border-gray-300 hover:bg-gray-50"
+            className="w-full sm:w-auto h-10 sm:h-auto order-2 sm:order-1 font-poppins border-gray-300 hover:bg-gray-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Previous
           </Button>
 
-          {/* Show NEXT button for Steps 1 and 2, 3 */}
+          {/* Show NEXT button for Steps 1, 2, 3 */}
           {step < 4 && (
             <Button
               type="button"
               onClick={handleNextStep}
-              className="bg-red-600 hover:bg-red-700 font-poppins"
+              className="w-full sm:w-auto h-10 sm:h-auto order-1 sm:order-2 bg-red-600 hover:bg-red-700 font-poppins"
             >
               Next Step
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -466,7 +608,7 @@ export function ListStartupForm({ onSubmitSuccess }) {
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
-              className="bg-red-600 hover:bg-red-700 font-poppins"
+              className="w-full sm:w-auto h-10 sm:h-auto order-1 sm:order-2 bg-red-600 hover:bg-red-700 font-poppins"
             >
               {form.formState.isSubmitting ? "Submitting..." : "Submit Startup"}
             </Button>
