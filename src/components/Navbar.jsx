@@ -1,32 +1,64 @@
 import { Button } from "../components/ui/Button";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthModal } from "./AuthModal";
 import { ListStartupModal } from "./ListStartupModal";
-import { supabase } from "../utils/supabaseClient"; // Ensure this path is correct
+import { supabase } from "../utils/supabaseClient";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isListStartupModalOpen, setIsListStartupModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  
   const navigate = useNavigate();
   const location = useLocation();
 
+  const checkAdmin = async (currentUser) => {
+    try {
+      if (currentUser) {
+        // Get user's role from users table
+        const { data: userData, error } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', currentUser.id)
+          .single();
+        
+        if (error) {
+          console.error("Error fetching user role:", error);
+          return;
+        }
+        
+        setIsAdmin(userData?.role === "admin");
+      } else {
+        setIsAdmin(false);
+      }
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+      setIsAdmin(false);
+    }
+  };
+
   // Monitor Auth State
   useEffect(() => {
-    // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const initializeAuth = async () => {
+      // Check current session
+      const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
-    });
+      checkAdmin(session?.user);
+    };
+
+    initializeAuth();
 
     // Listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      checkAdmin(currentUser);
     });
-
+    
     return () => subscription.unsubscribe();
   }, []);
 
@@ -53,7 +85,7 @@ function Navbar() {
     await supabase.auth.signOut();
     navigate("/");
   };
-
+ 
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4">
@@ -96,6 +128,19 @@ function Navbar() {
               List Startup
             </Button>
 
+            {/* Admin Button - Only show if user is admin */}
+            {isAdmin && (
+              <Button
+                onClick={() => navigate("/admin")}
+                variant="ghost"
+                className="font-poppins text-purple-600 hover:text-purple-700 hover:bg-purple-50 border-purple-200"
+                title="Admin Dashboard"
+              >
+                <Settings size={18} className="mr-2" />
+                Admin
+              </Button>
+            )}
+
             {!user ? (
               <Button
                 onClick={() => setIsAuthModalOpen(true)}
@@ -105,9 +150,13 @@ function Navbar() {
               </Button>
             ) : (
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-700 border border-red-200">
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-700 border border-red-200 hover:bg-red-200 transition-colors"
+                  title="Profile"
+                >
                   <User size={20} />
-                </div>
+                </button>
                 <button 
                   onClick={handleLogout}
                   className="p-2 text-slate-500 hover:text-red-600 transition-colors"
@@ -146,6 +195,18 @@ function Navbar() {
                   {link.name}
                 </button>
               ))}
+              
+              {/* Admin Link in Mobile Menu */}
+              {isAdmin && (
+                <button
+                  onClick={() => { navigate("/admin"); setMobileMenuOpen(false); }}
+                  className="px-4 py-3 rounded-lg text-left font-poppins text-purple-600 hover:bg-purple-50"
+                >
+                  <Settings size={18} className="inline mr-2" />
+                  Admin Dashboard
+                </button>
+              )}
+              
               <div className="flex flex-col gap-3 mt-4 px-4">
                 <Button variant="outline" onClick={() => { handleListStartupClick(); setMobileMenuOpen(false); }}>
                   List Startup
