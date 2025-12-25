@@ -97,28 +97,18 @@ export function NEIndiaMap() {
 
   return (
    
-  <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/30 p-6">
+  <div className="relative w-full h-full flex items-center justify-center ">
   {/* Background Decorative Elements */}
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 rounded-full blur-3xl"></div>
-    <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-gradient-to-tr from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
-  </div>
 
   {/* Main Container */}
-  <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/60 p-8 max-w-4xl w-full">
-    {/* Header */}
-    <div className="text-center mb-8">
-      <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-transparent mb-2">
-        Startup Ecosystem Map
-      </h1>
-      <p className="text-slate-600 text-lg">Explore innovation across regions</p>
-    </div>
-
+  <div className="relative  max-w-4xl w-full">
+    
+    
     {/* SVG Map Container */}
-    <div className="relative bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl border border-slate-200/60 p-6 shadow-inner">
+    <div className="relative ">
       <svg
-        viewBox="500 180 300 350"
-        className="w-full h-full max-w-2xl mx-auto drop-shadow-sm"
+        viewBox="500 180 300 250"
+        className="w-full h-full max-w-2xl mx-auto "
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -132,13 +122,6 @@ export function NEIndiaMap() {
             <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(100,116,139,0.1)" strokeWidth="1"/>
           </pattern>
         </defs>
-
-        {/* Background Grid */}
-        <rect width="100%" height="100%" fill="url(#grid)" />
-        
-        {/* Gradient Background */}
-        <rect x="500" y="180" width="300" height="350" fill="url(#mapGradient)" rx="8" />
-
         {/* Render each state path */}
         {Object.entries(statePaths).map(([key, d]) => (
           <path
@@ -179,20 +162,7 @@ export function NEIndiaMap() {
       </svg>
 
       {/* Map Legend */}
-        <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 bg-white/90 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg border border-slate-200/60">
-  <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-gradient-to-r from-cyan-400 to-cyan-600"></div>
-    <span className="text-[10px] sm:text-xs font-medium text-slate-700">Emerging</span>
-  </div>
-  <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
-    <span className="text-[10px] sm:text-xs font-medium text-slate-700">Growing</span>
-  </div>
-  <div className="flex items-center gap-1 sm:gap-2">
-    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-sm bg-gradient-to-r from-purple-400 to-purple-600"></div>
-    <span className="text-[10px] sm:text-xs font-medium text-slate-700">Mature</span>
-  </div>
-</div>
+       
     </div>
 
     {/* Info Popup */}
@@ -255,11 +225,7 @@ export function NEIndiaMap() {
     </AnimatePresence>
 
     {/* Footer */}
-    <div className="text-center mt-6">
-      <p className="text-slate-500 text-sm">
-        Click on any state to explore detailed insights
-      </p>
-    </div>
+    
   </div>
 </div>
  

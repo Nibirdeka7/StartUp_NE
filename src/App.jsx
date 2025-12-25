@@ -14,6 +14,7 @@ import AdminDashboard from './pages/Admin.jsx'
 import { AdminRoute } from './components/AdminRoute.jsx'
 import { MyBlogsPage } from './pages/MyBlogsPage.jsx'
 import { CreateBlogPage } from './pages/CreateBlogPage.jsx'
+import ProfilePage from './pages/Profile.jsx'
 const App = () => {
   return (
     <div>
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/blog/edit/:id" element={<CreateBlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={ <AdminRoute>
                                             <AdminDashboard />
                                           </AdminRoute>} />
