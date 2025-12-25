@@ -136,7 +136,7 @@ const BookShowcaseSection = () => {
                   className="flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  Buy Full Book - ₹499
+                  Buy Full Book - ₹199
                 </motion.a>
               </div>
             </div>
@@ -148,7 +148,7 @@ const BookShowcaseSection = () => {
 
   return (
     <>
-      <div className="py-16 bg-gradient-to-br from-slate-50 to-cyan-50/30">
+      <div className=" bg-gradient-to-br from-slate-50 to-cyan-50/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -194,6 +194,8 @@ const BookShowcaseSection = () => {
               >
                 <div>
                   <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+                    
+                    
                     The 6-Month Guide to Building Your NE Startup
                   </h2>
                   <p className="text-lg text-slate-600 mb-6 leading-relaxed">
@@ -215,8 +217,8 @@ const BookShowcaseSection = () => {
                 {/* Price */}
                 <div className="mb-8">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-4xl font-bold text-slate-900">₹499</span>
-                    <span className="text-lg text-slate-500 line-through">₹899</span>
+                    <span className="text-4xl font-bold text-slate-900">₹199</span>
+                    <span className="text-lg text-slate-500 line-through">₹499</span>
                     <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
                       45% OFF
                     </span>

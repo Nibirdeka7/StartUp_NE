@@ -57,7 +57,7 @@ export function FeaturedStartups({ onNavigate }) {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-red-200 border border-red-300 mb-4">
-            <Sparkles className="w-4 h-4 text-red-600" />
+            
             <span className="text-sm text-red-800 font-medium">Featured Startups</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 font-montserrat">

@@ -1,28 +1,57 @@
-import { Card, CardContent } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { Target, Users, TrendingUp, Award, Heart, Lightbulb, Sparkles, ChartLine } from "lucide-react";
+import { 
+  Target, 
+  Users, 
+  TrendingUp, 
+  Award, 
+  Heart, 
+  Lightbulb, 
+  Sparkles, 
+  ChartLine, 
+  MapPin, 
+  Globe, 
+  Zap, 
+  Leaf,
+  Building,
+  Rocket,
+  Shield,
+  ArrowRight,
+  Star,
+  Target as TargetIcon
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { GridBeam } from "../components/ui/GridBeam";
+import { Highlight } from "../components/ui/hero-highlight";
 
 export function AboutPage() {
   const values = [
     {
-      icon: Lightbulb,
-      title: "Innovation First",
-      description: "We believe in the power of innovation to transform communities and create lasting impact.",
+      icon: TargetIcon,
+      title: "Precision Execution",
+      description: "Strategic focus combined with flawless execution to turn vision into reality.",
+      gradient: "from-red-600 to-red-800",
+      bg: "bg-gradient-to-br from-red-50 to-red-100"
     },
     {
       icon: Users,
-      title: "Community Driven",
-      description: "Building a supportive ecosystem where entrepreneurs help each other succeed.",
-    },
-    {
-      icon: Heart,
-      title: "Northeast Pride",
-      description: "Celebrating and empowering the unique entrepreneurial spirit of Northeast India.",
+      title: "Collective Excellence",
+      description: "Where individual brilliance meets collaborative genius for exponential impact.",
+      gradient: "from-blue-600 to-blue-800",
+      bg: "bg-gradient-to-br from-blue-50 to-blue-100"
     },
     {
       icon: TrendingUp,
-      title: "Sustainable Growth",
-      description: "Focusing on long-term, sustainable growth rather than short-term gains.",
+      title: "Measured Growth",
+      description: "Sustainable scaling with data-driven decisions and market intelligence.",
+      gradient: "from-red-700 to-amber-700",
+      bg: "bg-gradient-to-br from-amber-50 to-red-50"
+    },
+    {
+      icon: Shield,
+      title: "Integrity First",
+      description: "Uncompromising ethics and transparency in every partnership and transaction.",
+      gradient: "from-blue-700 to-cyan-700",
+      bg: "bg-gradient-to-br from-cyan-50 to-blue-50"
     },
   ];
 
@@ -30,190 +59,385 @@ export function AboutPage() {
     {
       name: "Gourangon Gogoi",
       role: "Founder & CEO",
-      avatar: "",
+      expertise: "Ecosystem Architecture & Strategy",
+      initials: "GG",
+      gradient: "from-red-700 to-red-900"
     },
     {
       name: "John Doe",
       role: "Head of Operations",
-      avatar: "",
+      expertise: "Growth Strategy & Execution",
+      initials: "JD",
+      gradient: "from-blue-700 to-blue-900"
     },
     {
       name: "Nibir Deka",
-      role: "Tech Team",
-      avatar: "",
+      role: "Technology Director",
+      expertise: "Digital Infrastructure & Innovation",
+      initials: "ND",
+      gradient: "from-red-600 to-blue-600"
     }
   ];
 
+  const milestones = [
+    { 
+      year: "2023", 
+      title: "Foundation", 
+      description: "Platform conceptualized & MVP developed",
+      stat: "50 Startups",
+      icon: Building
+    },
+    { 
+      year: "2024", 
+      title: "Launch & Traction", 
+      description: "Official launch with first funding round closed",
+      stat: "₹25Cr+ Funding",
+      icon: Rocket
+    },
+    { 
+      year: "2025", 
+      title: "Expansion", 
+      description: "Pan-Northeast presence established",
+      stat: "150+ Ventures",
+      icon: Globe
+    },
+    { 
+      year: "2026", 
+      title: "Scale", 
+      description: "National recognition & international partnerships",
+      stat: "500+ Target",
+      icon: TrendingUp
+    },
+  ];
+
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-br from-white via-red-50 to-blue-50">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 mb-16 md:mb-20">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-red-200 border border-red-300 mb-4">
-            <ChartLine className="w-4 h-4 text-red-600" />
-            <span className="text-sm text-red-800 font-medium">Our Journey</span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-montserrat">
-            Empowering Northeast's Entrepreneurial Spirit
-          </h1>
-          <p className="text-sm md:text-lg text-slate-700 max-w-3xl mx-auto font-poppins">
-            Startup Northeast is on a mission to build the most vibrant and supportive 
-            startup ecosystem in India's Northeast region, connecting founders with resources, 
-            mentorship, and funding to turn their dreams into reality.
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-white via-red-50/20 to-blue-50/20">
+      {/* Premium Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-red-500/5 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-grid-slate-100/30 [mask-image:radial-gradient(ellipse_at_center,white,transparent_80%)]" />
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center max-w-6xl mx-auto">
-          <div className="space-y-4 md:space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 font-montserrat">Our Story</h2>
-            <p className="text-slate-700 leading-relaxed font-poppins">
-              Founded in 2023, Startup Northeast emerged from a simple observation: the 
-              Northeast region of India is brimming with talented entrepreneurs and innovative 
-              ideas, but lacks the structured support system needed to help them thrive.
-            </p>
-            <p className="text-slate-700 leading-relaxed font-poppins">
-              We started with a vision to bridge this gap by creating a comprehensive platform 
-              that provides everything a startup needs - from legal and compliance support to 
-              funding connections and community networking.
-            </p>
-            <p className="text-slate-700 leading-relaxed font-poppins">
-              Today, we're proud to support over 150+ startups across all eight Northeast 
-              states, having facilitated ₹50+ crores in funding and created a thriving 
-              community of entrepreneurs, mentors, and investors.
-            </p>
-          </div>
-          <Card className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 overflow-hidden">
-            <CardContent className="p-0">
-              <div className="w-full h-64 md:h-80 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                <div className="text-white text-center p-6">
-                  <Users className="w-16 h-16 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold mb-2">150+ Startups</h3>
-                  <p className="text-red-100">Supported Across Northeast</p>
-                </div>
+      <GridBeam>
+        <div className="relative container mx-auto px-4 py-24 md:py-32">
+          
+          {/* Hero Section - Premium Introduction */}
+          <div className="text-center max-w-4xl mx-auto mb-24">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-sm border border-red-200/50 shadow-sm mb-8"
+            >
+              <div className="w-5 h-5 flex items-center justify-center">
+                <img src="Startup_NE.png" alt="Startup NE Logo" className="w-full h-full object-contain" />
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+              <span className="text-sm font-medium text-slate-800 font-poppins">
+                Pioneering Northeast's Startup Renaissance
+              </span>
+            </motion.div>
 
-      {/* Mission & Vision */}
-      <div className="py-12 md:py-20 mb-12 md:mb-20">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
-            <Card className="border-2 border-red-200 bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6 md:p-8 space-y-4">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                  <Target className="w-6 h-6 md:w-7 md:h-7 text-white" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 font-montserrat">Our Mission</h3>
-                <p className="text-slate-700 leading-relaxed font-poppins">
-                  To empower every entrepreneur in Northeast India with the resources, 
-                  knowledge, and network they need to build successful, sustainable businesses 
-                  that create jobs and drive economic growth in the region.
-                </p>
-              </CardContent>
-            </Card>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 font-montserrat tracking-tight"
+            >
+              <span className="block bg-gradient-to-r from-red-800 to-red-900 bg-clip-text text-transparent">
+                Building Northeast India's
+              </span>
+              <span className="block text-slate-900 mt-2">
+                Premier Innovation <Highlight className="text-red-700">Ecosystem</Highlight>
+              </span>
+            </motion.h1>
 
-            <Card className="border-2 border-red-200 bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6 md:p-8 space-y-4">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                  <Award className="w-6 h-6 md:w-7 md:h-7 text-white" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 font-montserrat">Our Vision</h3>
-                <p className="text-slate-700 leading-relaxed font-poppins">
-                  To establish Northeast India as one of the most dynamic and innovative 
-                  startup hubs in Asia, known for breakthrough innovations and successful 
-                  enterprises that solve real-world problems.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto font-poppins"
+            >
+              We're catalyzing a transformative movement that connects visionary entrepreneurs with 
+              strategic resources, smart capital, and a collaborative network to build sustainable, 
+              high-impact ventures.
+            </motion.p>
 
-      {/* Values */}
-      <div className="container mx-auto px-4 mb-16 md:mb-20">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 md:mb-4 font-montserrat">Our Core Values</h2>
-          <p className="text-slate-700 max-w-2xl mx-auto font-poppins">
-            The principles that guide everything we do
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {values.map((value, index) => {
-            const Icon = value.icon;
-            return (
-              <Card key={index} className="border-2 border-slate-200 hover:border-red-300 transition-all hover:shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardContent className="p-5 md:p-6 text-center space-y-3 md:space-y-4">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center mx-auto">
-                    <Icon className="w-6 h-6 md:w-7 md:h-7 text-red-600" />
+            {/* Elegant Stats */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-3xl mx-auto"
+            >
+              {[
+                { value: "150+", label: "Active Startups", color: "text-red-700" },
+                { value: "₹50Cr+", label: "Funding Mobilized", color: "text-amber-700" },
+                { value: "8", label: "States Covered", color: "text-blue-700" },
+                { value: "95%", label: "Satisfaction Rate", color: "text-emerald-700" }
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className={`text-3xl md:text-4xl font-bold ${stat.color} font-montserrat mb-2`}>
+                    {stat.value}
                   </div>
-                  <h3 className="text-lg md:text-xl font-semibold text-slate-900 font-montserrat">{value.title}</h3>
-                  <p className="text-xs md:text-sm text-slate-600 font-poppins">{value.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Team */}
-      <div className="py-12 md:py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 md:mb-4 font-montserrat">Meet Our Team</h2>
-            <p className="text-slate-700 max-w-2xl mx-auto font-poppins">
-              Passionate individuals working to make Northeast India's startup dreams come true
-            </p>
+                  <div className="text-sm text-slate-600 font-medium font-poppins">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
-            {team.map((member, index) => (
-              <Card key={index} className="border-2 border-slate-200 hover:border-red-300 transition-all hover:shadow-lg text-center">
-                <CardContent className="p-4 md:p-6 space-y-3 md:space-y-4">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center text-3xl md:text-4xl mx-auto">
-                    {member.avatar}
+          {/* Our Story - Clean & Professional */}
+          <div className="mb-32">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                    <Lightbulb className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1 font-montserrat">{member.name}</h3>
-                    <p className="text-sm text-slate-600 font-poppins">{member.role}</p>
+                    <div className="text-sm font-semibold text-red-700 uppercase tracking-wider">Our Origin</div>
+                    <h2 className="text-3xl font-bold text-slate-900 font-montserrat">The Genesis Story</h2>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <p className="text-slate-600 leading-relaxed text-lg font-poppins">
+                    Founded in 2023, Startup Northeast was born from a fundamental observation: 
+                    Northeast India possesses immense entrepreneurial talent and innovative potential, 
+                    yet lacks the structured ecosystem support needed to thrive.
+                  </p>
+                  <p className="text-slate-600 leading-relaxed text-lg font-poppins">
+                    We envisioned a platform that goes beyond traditional incubators—a comprehensive 
+                    ecosystem that provides end-to-end support from ideation to scale, with a deep 
+                    understanding of regional dynamics and global market demands.
+                  </p>
+                  <p className="text-slate-600 leading-relaxed text-lg font-poppins">
+                    Today, we stand as the region's most trusted partner for ambitious founders, 
+                    having facilitated over ₹50 crores in funding and built a network spanning all 
+                    eight Northeastern states.
+                  </p>
+                </div>
+              </div>
 
-      {/* CTA */}
-      <div className="container mx-auto px-4 mt-12 md:mt-20">
-        <Card className="bg-gradient-to-r from-red-600 to-red-800 border-0 text-white overflow-hidden">
-          <CardContent className="p-6 md:p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 font-montserrat">
-              Join Us in Building the Future
-            </h2>
-            <p className="text-red-100 mb-4 md:mb-6 max-w-2xl mx-auto font-poppins">
-              Whether you're a founder, investor, mentor, or supporter, there's a place for you in our community
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className=" text-red-700 hover:bg-red-50 hover:text-red-800 font-semibold px-6 md:px-8 py-3 md:py-4"
-              >
-                Get Involved
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-2 border-white/30 text-white hover:bg-white/10 font-semibold px-6 md:px-8 py-3 md:py-4"
-              >
-                Contact Us
-              </Button>
+              {/* Timeline */}
+              <div className="relative">
+                <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-red-200 via-red-300 to-blue-200" />
+                {milestones.map((milestone, index) => {
+                  const Icon = milestone.icon;
+                  return (
+                    <div key={index} className="relative flex items-start mb-12 last:mb-0">
+                      <div className="relative z-10 flex-shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-white to-slate-50 border border-slate-200 shadow-sm flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-red-600" />
+                        </div>
+                      </div>
+                      <div className="ml-6 flex-1">
+                        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-2xl font-bold text-red-700">{milestone.year}</div>
+                            <div className="px-3 py-1 bg-red-50 rounded-full">
+                              <span className="text-sm font-semibold text-red-700">{milestone.stat}</span>
+                            </div>
+                          </div>
+                          <h3 className="text-xl font-bold text-slate-900 mb-2">{milestone.title}</h3>
+                          <p className="text-slate-600">{milestone.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+
+          {/* Mission & Vision - Professional Cards */}
+          <div className="mb-32">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-50 to-blue-50 border border-red-200/50 mb-6">
+                <Target className="w-4 h-4 text-red-600" />
+                <span className="text-sm font-semibold text-red-700">Our Strategic Pillars</span>
+              </div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-6 font-montserrat">
+                Purpose-Driven <Highlight className="text-red-700">Leadership</Highlight>
+              </h2>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div className="bg-gradient-to-br from-white to-red-50 rounded-2xl border border-red-200/50 p-8 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                      <Target className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4 font-montserrat">Our Mission</h3>
+                    <p className="text-slate-600 leading-relaxed text-lg font-poppins">
+                      To systematically dismantle barriers to entrepreneurship in Northeast India by 
+                      providing founders with strategic resources, smart capital, and market access 
+                      needed to build scalable, globally competitive ventures.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200/50 p-8 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+                      <Award className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4 font-montserrat">Our Vision</h3>
+                    <p className="text-slate-600 leading-relaxed text-lg font-poppins">
+                      To establish Northeast India as Asia's foremost hub for sustainable innovation 
+                      and entrepreneurship, recognized for producing world-class startups that solve 
+                      meaningful problems and drive inclusive economic growth.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Core Values - Elegant Grid */}
+          <div className="mb-32">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-50 to-blue-50 border border-red-200/50 mb-6">
+                <Star className="w-4 h-4 text-red-600" />
+                <span className="text-sm font-semibold text-red-700">Our Guiding Principles</span>
+              </div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-6 font-montserrat">
+                The Foundation of <Highlight className="text-red-700">Excellence</Highlight>
+              </h2>
+              <p className="text-lg text-slate-600 font-poppins">
+                These principles define our culture and guide every decision we make.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {values.map((value, index) => {
+                const Icon = value.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
+                    className="group"
+                  >
+                    <div className={`${value.bg} rounded-2xl border border-slate-200 p-8 h-full transition-all duration-300 group-hover:border-red-300 group-hover:shadow-lg`}>
+                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300`}>
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-3 font-montserrat group-hover:text-red-700 transition-colors">
+                        {value.title}
+                      </h3>
+                      <p className="text-slate-600 font-poppins">
+                        {value.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Leadership Team - Professional */}
+          <div className="mb-32">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-50 to-blue-50 border border-red-200/50 mb-6">
+                <Users className="w-4 h-4 text-red-600" />
+                <span className="text-sm font-semibold text-red-700">Leadership Team</span>
+              </div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-6 font-montserrat">
+                Meet Our <Highlight className="text-red-700">Strategic Leaders</Highlight>
+              </h2>
+              <p className="text-lg text-slate-600 font-poppins">
+                Seasoned professionals driving Northeast India's entrepreneurial transformation.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {team.map((member, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
+                  whileHover={{ y: -5 }}
+                  className="group"
+                >
+                  <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm hover:shadow-lg transition-all">
+                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6 group-hover:scale-105 transition-transform duration-300`}>
+                      {member.initials}
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 font-montserrat group-hover:text-red-700 transition-colors">
+                      {member.name}
+                    </h3>
+                    <div className="text-red-700 font-semibold mb-3">{member.role}</div>
+                    <div className="text-sm text-slate-600 font-poppins">{member.expertise}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Final CTA - Professional & Compelling */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 bg-gradient-to-r from-red-500/10 via-blue-500/10 to-red-500/10 rounded-3xl blur-xl" />
+            <div className="relative bg-gradient-to-r from-red-700 to-red-900 rounded-2xl border border-red-600/20 p-12 text-center overflow-hidden">
+              <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(to_bottom,white,transparent)]" />
+              
+              <div className="relative z-10">
+                <Sparkles className="w-12 h-12 text-white mx-auto mb-6 opacity-80" />
+                <h2 className="text-4xl font-bold text-white mb-6 font-montserrat">
+                  Ready to Build Something Extraordinary?
+                </h2>
+                <p className="text-lg text-red-100 mb-8 max-w-2xl mx-auto font-poppins">
+                  Join Northeast India's most dynamic community of innovators, investors, and 
+                  changemakers. Let's create lasting impact together.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    size="lg"
+                    className="bg-white text-red-700 hover:bg-red-50 font-bold px-8 py-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+                  >
+                    <span className="flex items-center gap-3">
+                      Start Your Journey
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-white/40 text-white hover:bg-white/10 font-bold px-8 py-6 rounded-xl backdrop-blur-sm"
+                  >
+                    Partner With Us
+                  </Button>
+                </div>
+                
+                <div className="mt-10 pt-8 border-t border-white/20">
+                  <p className="text-red-100/80 text-sm font-poppins">
+                    Already a member? <a href="/login" className="text-white font-semibold hover:underline">Sign in</a> to your dashboard
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+      </GridBeam>
     </div>
   );
 }

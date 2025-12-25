@@ -93,9 +93,9 @@ function Navbar() {
           {/* Logo */}
           <button onClick={() => navigate("/")} className="flex items-center gap-2 group">
              <div className="relative">
-               <div className="w-13 h-13 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-red-200 transition-shadow">
-                 <img src="/Startup_NE.png" alt="Startup Northeast Logo" />
-               </div>
+               {/* <div className="w-13 h-13 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-red-200 transition-shadow"> */}
+                 <img src="/Startup_NE.png" alt="Startup Northeast Logo" className="w-13 h-13"/>
+               {/* </div> */}
              </div>
              <div className="flex flex-col items-start">
                <span className="font-montserrat font-bold text-oxford-blue text-lg">Startup</span>

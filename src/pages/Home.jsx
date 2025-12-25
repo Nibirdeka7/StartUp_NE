@@ -8,6 +8,10 @@ import { Testimonials } from '../components/Testimonial'
 import { AuthModal } from '../components/AuthModal'
 import { ListStartupModal } from '../components/ListStartupModal'
 import { supabase } from '../utils/supabaseClient'
+import {  ServicesIntroBentoGrid } from '../components/BentoForServices'
+import StartupStatsGrid from '../components/StartupStatsGrid'
+import TeamGallery from '../components/StartUpImpactGallery'
+import { HorizontalScrollDemo } from '../components/HorizontalScroll'
 
 const Home = () => {
   const [user, setUser] = useState(null)
@@ -51,7 +55,7 @@ const Home = () => {
       {/* <TrustedBySection/> */}
       <BookShowcaseSection/>
       <FeaturedStartups/>
-      <ServicesGrid/>
+      <ServicesIntroBentoGrid/>
       <Testimonials/>
 
       {/* Modals */}
@@ -66,6 +70,9 @@ const Home = () => {
         isOpen={isListStartupModalOpen}
         onClose={() => setIsListStartupModalOpen(false)}
       />
+
+      <HorizontalScrollDemo/>
+      {/* <TeamGallery/> */}
     </div>
   )
 }
