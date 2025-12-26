@@ -12,6 +12,7 @@ import {  ServicesIntroBentoGrid } from '../components/BentoForServices'
 import StartupStatsGrid from '../components/StartupStatsGrid'
 import TeamGallery from '../components/StartUpImpactGallery'
 import { HorizontalScrollDemo } from '../components/HorizontalScroll'
+import FAQSection from '../components/FaqSection'
 
 const Home = () => {
   const [user, setUser] = useState(null)
@@ -72,7 +73,7 @@ const Home = () => {
       />
 
       <HorizontalScrollDemo/>
-      {/* <TeamGallery/> */}
+      <FAQSection/>
     </div>
   )
 }

@@ -17,23 +17,20 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <GridBeam className="sm:pl-16 pl-4">
-        <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-16">
+      <GridBeam className="sm:pl-10 pl-4">
+        <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-5">
           {/* Header Badge - Centered */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -3 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex justify-center mb-6 md:mb-8"
+            className="flex justify-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-red-200/50 shadow-sm">
-              <div className="w-5 h-5 flex items-center justify-center">
-                <img src="Startup_NE.png" alt="Startup NE Logo" className="w-full h-full object-contain" />
+              <div className="w-30 h-30 flex items-center justify-center">
+                <img src="assam.png" alt="Startup NE Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="text-xs font-medium text-slate-800 font-poppins">
-                Empowering Northeast Innovation
-              </span>
-            </div>
+              
+          
           </motion.div>
 
           {/* Main Content - Better Alignment */}
