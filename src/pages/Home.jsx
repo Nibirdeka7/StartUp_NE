@@ -13,6 +13,7 @@ import StartupStatsGrid from '../components/StartupStatsGrid'
 import TeamGallery from '../components/StartUpImpactGallery'
 import { HorizontalScrollDemo } from '../components/HorizontalScroll'
 import FAQSection from '../components/FaqSection'
+import CombinedBookShowcase from '../components/Book'
 
 const Home = () => {
   const [user, setUser] = useState(null)
@@ -54,7 +55,8 @@ const Home = () => {
         onListStartupClick={handleListStartupClick}
       />
       {/* <TrustedBySection/> */}
-      <BookShowcaseSection/>
+      {/* <BookShowcaseSection/> */}
+      <CombinedBookShowcase/>
       <FeaturedStartups/>
       <ServicesIntroBentoGrid/>
       <Testimonials/>

@@ -385,6 +385,7 @@ const Card = ({ data, index }) => {
             src={data.video}
             muted
             loop
+            autoPlay
             playsInline
             preload="metadata"
             className="w-full h-full object-cover"

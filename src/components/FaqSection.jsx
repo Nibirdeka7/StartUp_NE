@@ -110,7 +110,7 @@ function FAQSection() {
 
         {/* Category Tabs - Mobile Scrollable */}
         <div className="mb-8 md:mb-12">
-          <div className="flex justify-center overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
+          <div className="flex lg:justify-center overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
             <div className="flex gap-2 min-w-max px-2">
               {faqs.map((section) => (
                 <button
