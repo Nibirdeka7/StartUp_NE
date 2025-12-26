@@ -151,40 +151,31 @@ const BookShowcaseSection = () => {
       <div className=" bg-gradient-to-br from-slate-50 to-cyan-50/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               
               {/* Book Cover Section */}
+              
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
+                initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="flex justify-center"
+                className="mr-10"
               >
-                <div className="relative">
+                <div className="relative ">
                   {/* Book Cover */}
-                  <div className="w-64 h-80 bg-gradient-to-br from-cyan-600 to-emerald-600 rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer">
-                    <div className="absolute inset-4 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
-                      <div className="p-6 text-white">
-                        <h3 className="text-lg font-bold mb-2">The 6-Month Guide</h3>
-                        <div className="text-sm opacity-90">
-                          <p>Building Your</p>
-                          <p className="font-bold text-lg">NE Startup</p>
-                        </div>
-                        <div className="absolute bottom-6 left-6 right-6">
-                          <div className="text-xs opacity-80">From Idea to Launch</div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="w-84 h-90 bg-gradient-to-br from-cyan-600 to-emerald-600 rounded-2xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer">
+                   
+                         <img src="./e-book.png" alt="e-book" />
+                    
                   </div>
                   
                   {/* Decorative Elements */}
                   <div className="absolute -top-4 -right-4 w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center shadow-lg">
                     <Star className="w-4 h-4 text-amber-800 fill-current" />
                   </div>
-                  <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-cyan-400 rounded-full shadow-lg"></div>
                 </div>
               </motion.div>
-
+                
               {/* Book Content Section */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
@@ -195,7 +186,7 @@ const BookShowcaseSection = () => {
                 <div>
                   <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-transparent mb-4">
                     
-                    
+                   
                     The 6-Month Guide to Building Your NE Startup
                   </h2>
                   <p className="text-lg text-slate-600 mb-6 leading-relaxed">
@@ -231,8 +222,6 @@ const BookShowcaseSection = () => {
                   {[
                     "Step-by-step 6-month plan",
                     "Funding strategies for NE startups",
-                    "Market research templates",
-                    "Legal compliance guide",
                     "Success stories from NE entrepreneurs",
                     "Ongoing mentorship access"
                   ].map((feature, index) => (

@@ -17,7 +17,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full blur-3xl" />
       </div>
 
-      <GridBeam className="sm:pl-10 pl-4">
+      {/* <GridBeam className="sm:pl-10 pl-4"> */}
         <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-5">
           {/* Header Badge - Centered */}
           <motion.div
@@ -187,7 +187,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
             </div>
           </motion.div>
         </div>
-      </GridBeam>
+      {/* </GridBeam> */}
     </div>
   );
 }

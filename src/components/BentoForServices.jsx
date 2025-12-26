@@ -13,39 +13,46 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 
-
 export function ServicesIntroBentoGrid() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold mb-4 text-black dark:text-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <div className="text-center mb-10 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-black dark:text-white px-2">
           Complete Business Solutions
         </h2>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
           From startup registration to digital growth - everything your business needs
         </p>
       </div>
 
-      <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem]">
-        {items.map((item, i) => (
-          <BentoGridItem
-            key={i}
-            title={item.title}
-            description={item.description}
-            header={item.header}
-            className={cn("[&>p:text-lg]", item.className)}
-            icon={item.icon}
-          />
-        ))}
-      </BentoGrid>
+      <div className="overflow-hidden">
+        <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem]">
+          {items.map((item, i) => (
+            <BentoGridItem
+              key={i}
+              title={item.title}
+              description={item.description}
+              header={item.header}
+              className={cn(
+                "[&>p:text-base] sm:[&>p:text-lg]",
+                item.className,
+                // Mobile specific adjustments
+                "min-h-[300px] sm:min-h-0",
+                i === 3 && "md:col-span-2", // Keep design & development wide only on desktop
+              )}
+              icon={item.icon}
+            />
+          ))}
+        </BentoGrid>
+      </div>
 
-      <div className="text-center mt-12">
+      <div className="text-center mt-10 sm:mt-12 px-4">
         <a
           href="/services"
-          className="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
+          className="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 sm:py-3 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm sm:text-base"
         >
           View All Services
-          <IconArrowRight className="h-5 w-5" />
+          <IconArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </a>
       </div>
     </div>
@@ -88,22 +95,22 @@ const SkeletonOne = () => {
         variants={variants}
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
       >
-        <div className="h-6 w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
-        <div className="w-full bg-gray-100 h-4 rounded-full dark:bg-neutral-900" />
+        <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
       </motion.div>
       <motion.div
         variants={variantsSecond}
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 w-3/4 ml-auto bg-white dark:bg-black"
       >
-        <div className="w-full bg-gray-100 h-4 rounded-full dark:bg-neutral-900" />
-        <div className="h-6 w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+        <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
       </motion.div>
       <motion.div
         variants={variants}
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
       >
-        <div className="h-6 w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
-        <div className="w-full bg-gray-100 h-4 rounded-full dark:bg-neutral-900" />
+        <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
       </motion.div>
     </motion.div>
   );
@@ -135,7 +142,7 @@ const SkeletonTwo = () => {
       initial="initial"
       animate="animate"
       whileHover="hover"
-      className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-4 p-4"
+      className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-3 p-3 sm:p-4"
     >
       {services.map((service, i) => (
         <motion.div
@@ -144,10 +151,10 @@ const SkeletonTwo = () => {
           style={{
             maxWidth: Math.random() * (100 - 60) + 60 + "%",
           }}
-          className="flex flex-row rounded-lg border border-neutral-100 dark:border-white/[0.2] p-3 items-center space-x-2 bg-white dark:bg-black w-full"
+          className="flex flex-row rounded-lg border border-neutral-100 dark:border-white/[0.2] p-2 sm:p-3 items-center space-x-2 bg-white dark:bg-black w-full"
         >
-          <div className="h-4 w-4 rounded-full bg-red-700" />
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-red-700 shrink-0" />
+          <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
             {service}
           </span>
         </motion.div>
@@ -182,9 +189,9 @@ const SkeletonThree = () => {
         backgroundSize: "400% 400%",
       }}
     >
-      <div className="text-center p-6">
-        <div className="text-3xl font-bold text-white mb-2">25+</div>
-        <div className="text-white text-sm">Services Available</div>
+      <div className="text-center p-4 sm:p-6">
+        <div className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">25+</div>
+        <div className="text-white text-xs sm:text-sm">Services Available</div>
       </div>
     </motion.div>
   );
@@ -217,46 +224,46 @@ const SkeletonFour = () => {
       initial="initial"
       animate="animate"
       whileHover="hover"
-      className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-row space-x-2"
+      className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-row space-x-1 sm:space-x-2"
     >
       <motion.div
         variants={first}
-        className="h-full w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
+        className="h-full w-1/3 rounded-xl sm:rounded-2xl bg-white p-2 sm:p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
       >
-        <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-3">
-          <IconCode className="h-6 w-6 text-red-700" />
+        <div className="p-2 sm:p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-2 sm:mb-3">
+          <IconCode className="h-4 w-4 sm:h-6 sm:w-6 text-red-700" />
         </div>
-        <p className="sm:text-sm text-xs text-center font-semibold text-gray-700 dark:text-gray-300 mt-2">
+        <p className="text-xs sm:text-sm text-center font-semibold text-gray-700 dark:text-gray-300 mt-1 sm:mt-2">
           Tech Development
         </p>
-        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs rounded-full px-2 py-0.5 mt-3">
+        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] sm:text-xs rounded-full px-1.5 py-0.5 sm:px-2 sm:py-0.5 mt-2 sm:mt-3">
           Website • App
         </p>
       </motion.div>
       
-      <motion.div className="h-full relative z-20 w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center">
-        <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-3">
-          <IconBrush className="h-6 w-6 text-red-700" />
+      <div className="h-full relative z-20 w-1/3 rounded-xl sm:rounded-2xl bg-white p-2 sm:p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center">
+        <div className="p-2 sm:p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-2 sm:mb-3">
+          <IconBrush className="h-4 w-4 sm:h-6 sm:w-6 text-red-700" />
         </div>
-        <p className="sm:text-sm text-xs text-center font-semibold text-gray-700 dark:text-gray-300 mt-2">
+        <p className="text-xs sm:text-sm text-center font-semibold text-gray-700 dark:text-gray-300 mt-1 sm:mt-2">
           Design & Branding
         </p>
-        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs rounded-full px-2 py-0.5 mt-3">
+        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] sm:text-xs rounded-full px-1.5 py-0.5 sm:px-2 sm:py-0.5 mt-2 sm:mt-3">
           Logo • Pitch Deck
         </p>
-      </motion.div>
+      </div>
       
       <motion.div
         variants={second}
-        className="h-full w-1/3 rounded-2xl bg-white p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
+        className="h-full w-1/3 rounded-xl sm:rounded-2xl bg-white p-2 sm:p-4 dark:bg-black dark:border-white/[0.1] border border-neutral-200 flex flex-col items-center justify-center"
       >
-        <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-3">
-          <IconRocket className="h-6 w-6 text-red-700" />
+        <div className="p-2 sm:p-3 rounded-full bg-red-100 dark:bg-red-900/30 mb-2 sm:mb-3">
+          <IconRocket className="h-4 w-4 sm:h-6 sm:w-6 text-red-700" />
         </div>
-        <p className="sm:text-sm text-xs text-center font-semibold text-gray-700 dark:text-gray-300 mt-2">
+        <p className="text-xs sm:text-sm text-center font-semibold text-gray-700 dark:text-gray-300 mt-1 sm:mt-2">
           Growth Marketing
         </p>
-        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs rounded-full px-2 py-0.5 mt-3">
+        <p className="border border-red-500 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] sm:text-xs rounded-full px-1.5 py-0.5 sm:px-2 sm:py-0.5 mt-2 sm:mt-3">
           GTM • Performance
         </p>
       </motion.div>
@@ -298,10 +305,10 @@ const SkeletonFive = () => {
     >
       <motion.div
         variants={variants}
-        className="flex flex-row rounded-2xl border border-neutral-100 dark:border-white/[0.2] p-3 items-start space-x-2 bg-white dark:bg-black"
+        className="flex flex-row rounded-xl sm:rounded-2xl border border-neutral-100 dark:border-white/[0.2] p-2 sm:p-3 items-start space-x-2 bg-white dark:bg-black"
       >
-        <div className="p-2 rounded-lg bg-red-100 dark:bg-red-900/30">
-          <IconCashBanknote className="h-5 w-5 text-red-700" />
+        <div className="p-1.5 sm:p-2 rounded-lg bg-red-100 dark:bg-red-900/30 shrink-0">
+          <IconCashBanknote className="h-4 w-4 sm:h-5 sm:w-5 text-red-700" />
         </div>
         <p className="text-xs text-gray-600 dark:text-gray-400">
           Access funding through our grant and loan consultation services tailored for startups...
@@ -312,7 +319,7 @@ const SkeletonFive = () => {
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center justify-end space-x-2 w-3/4 ml-auto bg-white dark:bg-black"
       >
         <p className="text-xs text-gray-600 dark:text-gray-400">Starting at ₹10,000</p>
-        <div className="h-6 w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+        <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
       </motion.div>
     </motion.div>
   );
