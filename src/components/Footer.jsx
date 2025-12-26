@@ -12,8 +12,8 @@ export function Footer() {
           {/* Brand - Full width on mobile, 2 cols on desktop */}
           <div className="sm:col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-3 md:mb-4">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg">
-                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <div className="w-15 h-15 md:w-10 md:h-10 bg-gradient-to-br from-red-600 to-red-800 rounded--full md:rounded-full flex items-center justify-center shadow-lg">
+                <img src="./Startup_NE.png" alt="startup ne" className="" />
               </div>
               <div className="flex flex-col">
                 <span className="text-white text-lg md:text-xl font-bold font-montserrat">Startup Northeast</span>

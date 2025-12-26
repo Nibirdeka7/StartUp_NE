@@ -496,7 +496,7 @@ export function StartupsPage() {
                 <div className="text-sm text-red-200">Locations</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold mb-1">30+</div>
+                <div className="text-3xl md:text-4xl font-bold mb-1">N/A</div>
                 <div className="text-sm text-red-200">Investors</div>
               </div>
             </div>
@@ -855,25 +855,24 @@ export function StartupsPage() {
                   onClick={() => navigate("/submit-startup")}
                   className="bg-white text-red-600 hover:bg-red-50 font-bold px-8 py-6 text-lg rounded-xl shadow-2xl shadow-white/20 hover:shadow-white/30 transition-all duration-300 group"
                 >
-                  <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                   List Your Startup Now
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button
+                {/* <Button
                   variant="outline"
                   className="border-2 border-white/30 bg-white/10 hover:bg-white/20 text-white px-8 py-6 text-lg rounded-xl backdrop-blur-sm"
                   onClick={() => navigate("/investor")}
                 >
                   <DollarSign className="w-5 h-5 mr-2" />
                   I'm an Investor
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
         </div>
 
         {/* Quick Stats Footer */}
-        <div className="mt-12 pt-8 border-t border-slate-200">
+        {/* <div className="mt-12 pt-8 border-t border-slate-200">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{stats.total}</div>
@@ -892,7 +891,7 @@ export function StartupsPage() {
               <div className="text-sm text-slate-600">Northeast Cities</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
