@@ -81,33 +81,19 @@ export function AboutPage() {
 
   const milestones = [
     { 
-      year: "2023", 
+      year: "2025", 
       title: "Foundation", 
       description: "Platform conceptualized & MVP developed",
-      stat: "50 Startups",
+      stat: "25 Startups",
       icon: Building
     },
     { 
-      year: "2024", 
-      title: "Launch & Traction", 
-      description: "Official launch with first funding round closed",
-      stat: "₹25Cr+ Funding",
-      icon: Rocket
-    },
-    { 
-      year: "2025", 
-      title: "Expansion", 
-      description: "Pan-Northeast presence established",
-      stat: "150+ Ventures",
-      icon: Globe
-    },
-    { 
       year: "2026", 
-      title: "Scale", 
-      description: "National recognition & international partnerships",
-      stat: "500+ Target",
-      icon: TrendingUp
-    },
+      title: "Launch & Traction", 
+      description: "Official launch",
+      stat: "70+ Startups",
+      icon: Rocket
+    }
   ];
 
   return (
@@ -120,7 +106,7 @@ export function AboutPage() {
       </div>
 
       <GridBeam>
-        <div className="relative container mx-auto px-4 py-24 md:py-32">
+        <div className="relative container mx-auto px-4 py-24 md:py-12">
           
           {/* Hero Section - Premium Introduction */}
           <div className="text-center max-w-4xl mx-auto mb-24">
@@ -171,7 +157,7 @@ export function AboutPage() {
             >
               {[
                 { value: "150+", label: "Active Startups", color: "text-red-700" },
-                { value: "₹50Cr+", label: "Funding Mobilized", color: "text-amber-700" },
+                { value: "N/A", label: "Funding Mobilized", color: "text-amber-700" },
                 { value: "8", label: "States Covered", color: "text-blue-700" },
                 { value: "95%", label: "Satisfaction Rate", color: "text-emerald-700" }
               ].map((stat, index) => (
@@ -208,7 +194,7 @@ export function AboutPage() {
                     yet lacks the structured ecosystem support needed to thrive.
                   </p>
                   <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                    We envisioned a platform that goes beyond traditional incubators—a comprehensive 
+                    We envisioned a platform that goes beyond traditional incubators a comprehensive 
                     ecosystem that provides end-to-end support from ideation to scale, with a deep 
                     understanding of regional dynamics and global market demands.
                   </p>
@@ -400,7 +386,6 @@ export function AboutPage() {
               <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(to_bottom,white,transparent)]" />
               
               <div className="relative z-10">
-                <Sparkles className="w-12 h-12 text-white mx-auto mb-6 opacity-80" />
                 <h2 className="text-4xl font-bold text-white mb-6 font-montserrat">
                   Ready to Build Something Extraordinary?
                 </h2>
@@ -418,13 +403,7 @@ export function AboutPage() {
                       <ArrowRight className="w-5 h-5" />
                     </span>
                   </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-2 border-white/40 text-white hover:bg-white/10 font-bold px-8 py-6 rounded-xl backdrop-blur-sm"
-                  >
-                    Partner With Us
-                  </Button>
+                 
                 </div>
                 
                 <div className="mt-10 pt-8 border-t border-white/20">

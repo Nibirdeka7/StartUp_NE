@@ -20,7 +20,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
       {/* <GridBeam className="sm:pl-10 pl-4"> */}
         <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-5">
           {/* Header Badge - Centered */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: -3 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -31,10 +31,10 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
               </div>
               
           
-          </motion.div>
+          </motion.div> */}
 
           {/* Main Content - Better Alignment */}
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-20 items-start lg:items-center">
             {/* Left Column - Content */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}

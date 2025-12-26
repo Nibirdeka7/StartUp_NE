@@ -230,56 +230,56 @@ const provinceShapes = {
 const provincesData = [
   {
     name: "Assam",
-    startups: 156,
-    funding: "₹8.2B",
+    startups: 1514,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/assamVid_ocdje3.mp4",
     sector: "AI & Tech",
     maskSvg: createSvgMask(provinceShapes.assam, "620 200 50 150")
   },
   {
     name: "Arunachal",
-    startups: 324,
-    funding: "₹18.5B",
+    startups: 55,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/arunachalVid_ytedhm.mp4",
     sector: "Manufacturing",
     maskSvg: createSvgMask(provinceShapes.arunachal, "670 160 10 150")
   },
   {
     name: "Manipur",
-    startups: 245,
-    funding: "₹12.8B",
+    startups: 185,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/manipurVid_ftrlam.mp4",
     sector: "E-commerce",
     maskSvg: createSvgMask(provinceShapes.manipur, "670 260 10 100")
   },
   {
     name: "Mizoram",
-    startups: 324,
-    funding: "₹18.5B",
+    startups: 44,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742711/mizoramVid_al7amv.mp4",
     sector: "Manufacturing",
     maskSvg: createSvgMask(provinceShapes.mizoram, "640 310 10 90")
   },
   {
     name: "Meghalaya",
-    startups: 245,
-    funding: "₹12.8B",
+    startups: 63,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742713/meghalayaVid_ndpaqr.mp4",
     sector: "E-commerce",
     maskSvg: createSvgMask(provinceShapes.meghalaya, "595 250 10 80")
   },
   {
     name: "Nagaland",
-    startups: 324,
-    funding: "₹18.5B",
+    startups: 87,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/nagalandVid_lthf8p.mp4",
     sector: "Manufacturing",
     maskSvg: createSvgMask(provinceShapes.nagaland, "680 240 10 80")
   },
   {
     name: "Sikkim",
-    startups: 245,
-    funding: "₹12.8B",
+    startups: 12,
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742717/sikkimVid_i5xn84.mp4",
     sector: "E-commerce",
     maskSvg: createSvgMask(provinceShapes.sikkim, "525 217 10 50")
