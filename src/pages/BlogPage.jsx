@@ -624,7 +624,7 @@ export function BlogPage() {
                     <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-gradient-to-r from-red-100 to-red-200 animate-pulse mb-3 md:mb-4 mx-auto flex items-center justify-center">
                       <BookOpen className="w-5 h-5 md:w-8 md:h-8 text-red-400" />
                     </div>
-                    <div className="absolute inset-0 border-3 md:border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div>
+                    {/* <div className="absolute inset-0 border-3 md:border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div> */}
                   </div>
                   <h3 className="text-sm md:text-lg font-semibold text-slate-700 mt-3 md:mt-4">Loading Insights</h3>
                   <p className="text-xs md:text-slate-500">Fetching the latest articles...</p>
