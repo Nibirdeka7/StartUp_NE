@@ -163,7 +163,7 @@ function FAQSection() {
                           </h3>
                           <AnimatePresence>
                             {isActive && (
-                              <motion.p
+                              <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
@@ -171,7 +171,7 @@ function FAQSection() {
                                 className="text-sm sm:text-base text-slate-600 font-poppins leading-relaxed pt-1 sm:pt-2"
                               >
                                 {faq.description}
-                              </motion.p>
+                              </motion.div>
                             )}
                           </AnimatePresence>
                         </div>
@@ -239,7 +239,7 @@ function FAQSection() {
       </div>
 
       {/* Mobile-specific optimizations */}
-      <style jsx>{`
+      <style >{`
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;

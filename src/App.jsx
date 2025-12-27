@@ -16,6 +16,10 @@ import { MyBlogsPage } from './pages/MyBlogsPage.jsx'
 import { CreateBlogPage } from './pages/CreateBlogPage.jsx'
 import ProfilePage from './pages/Profile.jsx'
 import ContactPage from './pages/ContactUs.jsx'
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
+import TermsOfService from './pages/TermsOfService.jsx'
+import CookiesPolicy from './pages/Cookies.jsx'
+import CookieConsent from './components/CookieConsent.jsx'
 const App = () => {
   return (
     <div>
@@ -38,9 +42,13 @@ const App = () => {
           <Route path="/admin" element={ <AdminRoute>
                                             <AdminDashboard />
                                           </AdminRoute>} />
+          <Route path="/privacy" element={<PrivacyPolicy/>}/>
+          <Route path="/terms" element={<TermsOfService/>}/>
+          <Route path="/cookies" element={<CookiesPolicy />} />
+
+
         </Routes>
         <Footer />
-     
     </div>
   )
 }

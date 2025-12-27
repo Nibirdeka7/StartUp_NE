@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, ShoppingCart, Star, ArrowRight, X, Download, FileText, Play, ChevronRight } from "lucide-react";
 
-const CombinedBookShowcase = () => {
+const 
+CombinedBookShowcase = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -82,7 +83,7 @@ const CombinedBookShowcase = () => {
                       <Download className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-800 font-montserrat">Chapter 3: Growth Strategies</h4>
+                      <h4 className="font-bold text-slate-800 font-montserrat">Chapter 2: Growth Strategies</h4>
                       <p className="text-blue-600 text-sm font-poppins">Scaling Your Venture</p>
                     </div>
                   </div>
@@ -114,11 +115,16 @@ const CombinedBookShowcase = () => {
                     Download the complete first chapter including all templates, worksheets, and case studies.
                   </p>
                   <motion.button
+                    onClick={() => window.open(
+                        "https://drive.google.com/file/d/1nkPiO9KerZjEi_eaSIOGtphsQTymUBo2/view?usp=sharing",
+                        "_blank"
+                      )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-800 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300"
                   >
                     <Download className="w-4 h-4" />
+                    
                     Download Free Chapter
                   </motion.button>
                 </div>
@@ -331,7 +337,7 @@ const CombinedBookShowcase = () => {
       <PreviewModal />
 
       {/* Add the CSS styles */}
-      <style jsx>{`
+      <style >{`
         .book {
           position: relative;
           border-radius: 12px;

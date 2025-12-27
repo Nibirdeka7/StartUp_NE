@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/Button";
 import { 
   Target, 
@@ -22,8 +23,31 @@ import {
 import { motion } from "framer-motion";
 import { GridBeam } from "../components/ui/GridBeam";
 import { Highlight } from "../components/ui/hero-highlight";
+import { AuthModal } from "../components/AuthModal";
+import { ListStartupModal } from "../components/ListStartupModal";
+import { supabase } from "../utils/supabaseClient";
 
 export function AboutPage() {
+  // Auth state and modals
+  const [user, setUser] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isListStartupModalOpen, setIsListStartupModalOpen] = useState(false);
+
+  // Monitor Auth State (same as Home component)
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
+
   const values = [
     {
       icon: TargetIcon,
@@ -96,6 +120,27 @@ export function AboutPage() {
     }
   ];
 
+  // Handle Start Journey Click - same logic as Home component
+  const handleStartJourneyClick = () => {
+    if (!user) {
+      setIsAuthModalOpen(true); // Force login if not authenticated
+    } else {
+      setIsListStartupModalOpen(true);
+    }
+  };
+
+  // Handle Sign Up link click
+  const handleSignUpClick = (e) => {
+    e.preventDefault();
+    setIsAuthModalOpen(true);
+  };
+
+  // Handle Sign In link click (if you want different behavior)
+  const handleSignInClick = (e) => {
+    e.preventDefault();
+    setIsAuthModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-red-50/20 to-blue-50/20">
       {/* Premium Background Elements */}
@@ -137,7 +182,7 @@ export function AboutPage() {
               </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -146,7 +191,7 @@ export function AboutPage() {
               We're catalyzing a transformative movement that connects visionary entrepreneurs with 
               strategic resources, smart capital, and a collaborative network to build sustainable, 
               high-impact ventures.
-            </motion.p>
+            </motion.div>
 
             {/* Elegant Stats */}
             <motion.div 
@@ -396,6 +441,7 @@ export function AboutPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
                     size="lg"
+                    onClick={handleStartJourneyClick}
                     className="bg-white text-red-700 hover:bg-red-50 font-bold px-8 py-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
                   >
                     <span className="flex items-center gap-3">
@@ -408,7 +454,21 @@ export function AboutPage() {
                 
                 <div className="mt-10 pt-8 border-t border-white/20">
                   <p className="text-red-100/80 text-sm font-poppins">
-                    Already a member? <a href="/login" className="text-white font-semibold hover:underline">Sign in</a> to your dashboard
+                    Already a member?{" "}
+                    <button 
+                      onClick={handleSignInClick}
+                      className="text-white font-semibold hover:underline cursor-pointer bg-transparent border-none p-0"
+                    >
+                      Sign in
+                    </button>{" "}
+                    to your dashboard or{" "}
+                    <button 
+                      onClick={handleSignUpClick}
+                      className="text-white font-semibold hover:underline cursor-pointer bg-transparent border-none p-0"
+                    >
+                      Sign up
+                    </button>{" "}
+                    to get started
                   </p>
                 </div>
               </div>
@@ -417,6 +477,22 @@ export function AboutPage() {
 
         </div>
       </GridBeam>
+
+      {/* Auth and List Startup Modals */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onListStartup={() => setIsListStartupModalOpen(true)}
+        onGoHome={() => {
+          // You can add navigation logic here if needed
+          window.location.href = "/";
+        }}
+      />
+
+      <ListStartupModal
+        isOpen={isListStartupModalOpen}
+        onClose={() => setIsListStartupModalOpen(false)}
+      />
     </div>
   );
 }

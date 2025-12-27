@@ -18,7 +18,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
       </div>
 
       {/* <GridBeam className="sm:pl-10 pl-4"> */}
-        <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-5">
+        <div className="relative container mx-auto px-4  md:py-12 lg:py-5">
           {/* Header Badge - Centered */}
           {/* <motion.div
             initial={{ opacity: 0, y: -3 }}
@@ -70,7 +70,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                   </span>
                 </motion.h1>
 
-                <motion.p
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -79,7 +79,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                   Join India's fastest-growing startup ecosystem.
                   <Highlight className="text-black dark:text-white"> Get funding, mentorship, and resources</Highlight>
                   to scale your venture from the heart of Northeast India.
-                </motion.p>
+                </motion.div>
               </div>
 
               {/* CTA Buttons */}
