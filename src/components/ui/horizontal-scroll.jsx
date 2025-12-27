@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useTransform, useScroll } from "framer-motion";
-import { MapPin, TrendingUp, Building } from "lucide-react";
+import { MapPin, TrendingUp, Building, Globe, ChevronRight, Building2, Target, ArrowUpRight, Globe2 } from "lucide-react";
 
 // Helper function to encode SVG
 const createSvgMask = (pathData, viewBox = "500 200 50 70") => {
@@ -34,12 +34,12 @@ const provincesData = [
     maskSvg: createSvgMask(provinceShapes.assam, "620 200 50 150")
   },
   {
-    name: "Arunachal",
-    startups: 55,
-    funding: "N/A",
-    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/arunachalVid_ytedhm.mp4",
-    sector: "Manufacturing",
-    maskSvg: createSvgMask(provinceShapes.arunachal, "670 160 10 150")
+    name: "Tripura",
+    startups: 245,
+    funding: "₹12.8B",
+    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742722/tripura_dzjoel.mp4",
+    sector: "E-commerce",
+    maskSvg: createSvgMask(provinceShapes.tripura, "610 310 10 75")
   },
   {
     name: "Manipur",
@@ -47,15 +47,14 @@ const provincesData = [
     funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/manipurVid_ftrlam.mp4",
     sector: "E-commerce",
-    maskSvg: createSvgMask(provinceShapes.manipur, "670 260 10 100")
-  },
-  {
-    name: "Mizoram",
-    startups: 44,
+    maskSvg: createSvgMask(provinceShapes.manipur, "670 260 10 110")
+  }, {
+    name: "Nagaland",
+    startups: 87,
     funding: "N/A",
-    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742711/mizoramVid_al7amv.mp4",
+    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/nagalandVid_lthf8p.mp4",
     sector: "Manufacturing",
-    maskSvg: createSvgMask(provinceShapes.mizoram, "640 310 10 90")
+    maskSvg: createSvgMask(provinceShapes.nagaland, "680 240 10 86")
   },
   {
     name: "Meghalaya",
@@ -63,74 +62,219 @@ const provincesData = [
     funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742713/meghalayaVid_ndpaqr.mp4",
     sector: "E-commerce",
-    maskSvg: createSvgMask(provinceShapes.meghalaya, "595 250 10 80")
+    maskSvg: createSvgMask(provinceShapes.meghalaya, "595 250 10 85")
   },
   {
-    name: "Nagaland",
-    startups: 87,
+    name: "Arunachal",
+    startups: 55,
     funding: "N/A",
-    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/nagalandVid_lthf8p.mp4",
+    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742712/arunachalVid_ytedhm.mp4",
     sector: "Manufacturing",
-    maskSvg: createSvgMask(provinceShapes.nagaland, "680 240 10 80")
+    maskSvg: createSvgMask(provinceShapes.arunachal, "670 160 10 150")
   },
+  
+  {
+    name: "Mizoram",
+    startups: 44,
+    funding: "N/A",
+    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742711/mizoramVid_al7amv.mp4",
+    sector: "Manufacturing",
+    maskSvg: createSvgMask(provinceShapes.mizoram, "640 310 10 100")
+  },
+  
+ 
   {
     name: "Sikkim",
     startups: 12,
     funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742717/sikkimVid_i5xn84.mp4",
     sector: "E-commerce",
-    maskSvg: createSvgMask(provinceShapes.sikkim, "525 217 10 50")
+    maskSvg: createSvgMask(provinceShapes.sikkim, "525 217 10 60")
   },
-  {
-    name: "Tripura",
-    startups: 245,
-    funding: "₹12.8B",
-    video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742722/tripura_dzjoel.mp4",
-    sector: "E-commerce",
-    maskSvg: createSvgMask(provinceShapes.tripura, "610 310 10 60")
-  },
+  
 ];
+
+// const HorizontalScrollCarousel = () => {
+//   const targetRef = useRef(null);
+//   const { scrollYProgress } = useScroll({
+//     target: targetRef,
+//   });
+
+//   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-90%"]);
+
+//   return (
+//     <div className="relative w-full py-20">
+//       {/* Header */}
+//       <div className="container mx-auto px-4 mb-16">
+//         <div className="text-center">
+//           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 font-montserrat">
+//             <span className="bg-gradient-to-r from-red-800 to-red-900 bg-clip-text text-transparent">
+//               Innovation Across
+//             </span> Northeast States
+//           </h2>
+//           <p className="text-lg text-slate-600 max-w-2xl mx-auto font-poppins">
+//             Each state shown in its actual geographical shape
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* Horizontal Scroll Section */}
+//       <section
+//         ref={targetRef}
+//         className="relative h-[300vh] w-full"
+//       >
+//         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+//           <motion.div
+//             style={{ x }}
+//             className="flex gap-8 pl-4"
+//           >
+//             {provincesData.map((state, index) => (
+//               <Card
+//                 key={index}
+//                 data={state}
+//                 index={index}
+//               />
+//             ))}
+//           </motion.div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// };
+
+// const Card = ({ data, index }) => {
+//   const videoRef = useRef(null);
+  
+//   const handleMouseEnter = () => {
+//     if (videoRef.current) {
+//       videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
+//     }
+//   };
+  
+//   const handleMouseLeave = () => {
+//     if (videoRef.current) {
+//       videoRef.current.pause();
+//       videoRef.current.currentTime = 0;
+//     }
+//   };
+
+//   return (
+//     <div 
+//       className="relative shrink w-[450px] group"
+//       onMouseEnter={handleMouseEnter}
+//       onMouseLeave={handleMouseLeave}
+//     >
+//       {/* Video Container with SVG Mask */}
+//       <div 
+//         className="relative mb-4"
+//         style={{
+//           width: '500px',
+//           height: '400px',
+//           maskImage: data.maskSvg,
+//           WebkitMaskImage: data.maskSvg,
+//           maskRepeat: 'no-repeat',
+//           WebkitMaskRepeat: 'no-repeat',
+//           maskSize: 'contain',
+//           WebkitMaskSize: 'contain',
+//           backgroundColor: 'transparent',
+//         }}
+//       >
+//         <div className="relative w-full h-full">
+//           <video
+//             ref={videoRef}
+//             src={data.video}
+//             muted
+//             loop
+//             autoPlay
+//             playsInline
+//             preload="metadata"
+//             className="w-full h-full object-cover"
+//           />
+          
+//         </div>
+//       </div>
+
+//       {/* State Name */}
+//       <div className="absolute top-6 left-6 z-10 pointer-events-none">
+//         <div className="flex items-center gap-3">
+          
+//           <div>
+//             <h3 className="text-2xl font-bold text-black font-montserrat leading-tight">
+//               {data.name}
+//             </h3>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Stats Card */}
+//       <div className="mt-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+//         <div className="flex gap-8 justify-between">
+//           <div className="text-center flex-1">
+//             <div className="flex items-center justify-center gap-2 mb-2">
+//               <Building className="w-5 h-5 text-red-600" />
+//               <span className="text-sm text-slate-600 font-poppins">Startups</span>
+//             </div>
+//             <div className="text-2xl font-bold text-slate-900 font-montserrat">
+//               {data.startups}
+//             </div>
+//           </div>
+          
+//           <div className="text-center flex-1">
+//             <div className="flex items-center justify-center gap-2 mb-2">
+//               <TrendingUp className="w-5 h-5 text-blue-600" />
+//               <span className="text-sm text-slate-600 font-poppins">Funding</span>
+//             </div>
+//             <div className="text-2xl font-bold text-slate-900 font-montserrat">
+//               {data.funding}
+//             </div>
+//           </div>
+//         </div>
+        
+//         {/* Sector */}
+//         {/* <div className="mt-4 text-center">
+//           <div className="inline-block px-3 py-1 bg-gradient-to-r from-red-50 to-blue-50 rounded-full">
+//             <span className="text-sm font-medium text-slate-700">{data.sector}</span>
+//           </div>
+//         </div> */}
+//       </div>
+//     </div>
+//   );
+// };
 
 const HorizontalScrollCarousel = () => {
   const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-90%"]);
+  const { scrollYProgress } = useScroll({ target: targetRef });
+  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-70%"]);
 
   return (
-    <div className="relative w-full py-20">
-      {/* Header */}
-      <div className="container mx-auto px-4 mb-16">
-        <div className="text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 font-montserrat">
-            <span className="bg-gradient-to-r from-red-800 to-red-900 bg-clip-text text-transparent">
-              Innovation Across
-            </span> Northeast States
+    <div className="relative bg-white pt-24">
+      {/* Background Decorative Elements similar to Hero */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-100/20 via-transparent to-transparent pointer-events-none" />
+      
+      <div className="container mx-auto px-4 mb-2 relative">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="max-w-3xl"
+        >
+          <div className="inline-flex items-center gap-2 text-sm font-semibold text-red-700 uppercase tracking-widest ">
+            <Globe2 className="w-4 h-4" />
+            Regional Statistics
+          </div>
+          <h2 className="text-4xl md:text-6xl font-montserrat font-bold text-slate-900 leading-tight">
+            Explore the <span className="bg-gradient-to-r from-red-800 to-red-900 bg-clip-text text-transparent">Startup Landscape</span>
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-poppins">
-            Each state shown in its actual geographical shape
+          <p className="mt-6 text-lg text-slate-600 font-poppins max-w-xl">
+            A statewise breakdown of innovation, funding, and growth across Northeast India.
           </p>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Horizontal Scroll Section */}
-      <section
-        ref={targetRef}
-        className="relative h-[300vh] w-full"
-      >
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          <motion.div
-            style={{ x }}
-            className="flex gap-8 pl-4"
-          >
+      <section ref={targetRef} className="relative h-[350vh]">
+        <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+          <motion.div style={{ x }} className="flex gap-16 pl-4">
             {provincesData.map((state, index) => (
-              <Card
-                key={index}
-                data={state}
-                index={index}
-              />
+              <Card key={index} data={state} index={index} />
             ))}
           </motion.div>
         </div>
@@ -141,29 +285,17 @@ const HorizontalScrollCarousel = () => {
 
 const Card = ({ data, index }) => {
   const videoRef = useRef(null);
-  
-  const handleMouseEnter = () => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
-    }
-  };
-  
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  };
 
   return (
-    <div 
-      className="relative shrink w-[450px] group"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Video Container with SVG Mask */}
+    <div className="relative shrink-0 w-[480px] group">
+      {/* State Index Indicator */}
+      <div className="absolute -top-12 left-0 font-montserrat font-bold text-8xl text-slate-100 select-none -z-10 group-hover:text-red-50 transition-colors duration-500">
+        {index + 1 < 10 ? `0${index + 1}` : index + 1}
+      </div>
+
+      {/* Main Masked Content */}
       <div 
-        className="relative mb-4"
+        className="relative z-10 drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)] transition-transform duration-500 group-hover:-translate-y-4"
         style={{
           width: '500px',
           height: '400px',
@@ -173,66 +305,58 @@ const Card = ({ data, index }) => {
           WebkitMaskRepeat: 'no-repeat',
           maskSize: 'contain',
           WebkitMaskSize: 'contain',
-          backgroundColor: 'transparent',
         }}
       >
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full bg-slate-100">
           <video
             ref={videoRef}
             src={data.video}
-            muted
-            loop
-            autoPlay
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-cover"
+            muted loop autoPlay playsInline
+            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           />
-          
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-red-900/40" />
         </div>
       </div>
 
-      {/* State Name */}
-      <div className="absolute top-6 left-6 z-10 pointer-events-none">
-        <div className="flex items-center gap-3">
-          
-          <div>
-            <h3 className="text-2xl font-bold text-black font-montserrat leading-tight">
-              {data.name}
-            </h3>
+      {/* Metrics Card Overlay */}
+      <div className="absolute bottom-0 translate-y-1/2 left-10 right-10 bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-[0_15px_35px_-5px_rgba(0,0,0,0.1)] border border-slate-100 group-hover:border-red-200 transition-all">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-3xl font-montserrat font-bold text-slate-900 tracking-tight italic">
+            {data.name}
+          </h3>
+          <div className="p-2.5 bg-red-700 text-white rounded-lg shadow-lg shadow-red-200 group-hover:rotate-45 transition-transform duration-300">
+            <ArrowUpRight className="w-5 h-5" />
           </div>
         </div>
-      </div>
 
-      {/* Stats Card */}
-      <div className="mt-6 bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-        <div className="flex gap-8 justify-between">
-          <div className="text-center flex-1">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Building className="w-5 h-5 text-red-600" />
-              <span className="text-sm text-slate-600 font-poppins">Startups</span>
-            </div>
-            <div className="text-2xl font-bold text-slate-900 font-montserrat">
-              {data.startups}
-            </div>
-          </div>
+        <div className="grid grid-cols-2 gap-6 relative">
+          {/* Vertical Divider */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-200" />
           
-          <div className="text-center flex-1">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
-              <span className="text-sm text-slate-600 font-poppins">Funding</span>
-            </div>
-            <div className="text-2xl font-bold text-slate-900 font-montserrat">
-              {data.funding}
-            </div>
+          <div className="space-y-1">
+            <p className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <Building2 className="w-3.5 h-3.5 text-red-700" />
+              Startups
+            </p>
+            <p className="text-2xl font-montserrat font-bold text-slate-900">{data.startups}</p>
+          </div>
+
+          <div className="space-y-1 pl-4">
+            <p className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+              <TrendingUp className="w-3.5 h-3.5 text-red-700" />
+              Valuation
+            </p>
+            <p className="text-2xl font-montserrat font-bold text-red-800">{data.funding}</p>
           </div>
         </div>
-        
-        {/* Sector */}
-        {/* <div className="mt-4 text-center">
-          <div className="inline-block px-3 py-1 bg-gradient-to-r from-red-50 to-blue-50 rounded-full">
-            <span className="text-sm font-medium text-slate-700">{data.sector}</span>
-          </div>
-        </div> */}
+
+        {/* State Tagline (Optional) */}
+        <div className="mt-6 pt-4 border-t border-slate-100">
+          <span className="inline-flex items-center gap-2 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded-md uppercase tracking-wider">
+            <Target className="w-3 h-3" />
+            Top Sector: {data.sector}
+          </span>
+        </div>
       </div>
     </div>
   );
