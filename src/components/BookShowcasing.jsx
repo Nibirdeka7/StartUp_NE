@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, ShoppingCart, Star, ArrowRight, X, Download, FileText } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const BookShowcaseSection = () => {
   const [showPreview, setShowPreview] = useState(false);
-
+  const navigate = useNavigate();
   const PreviewModal = () => (
     <AnimatePresence>
       {showPreview && (
@@ -77,8 +78,8 @@ const BookShowcaseSection = () => {
                       <Download className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-800">Chapter 3: Funding Strategies</h4>
-                      <p className="text-emerald-600 text-sm">Pages 85-112</p>
+                      <h4 className="font-bold text-slate-800">Chapter 2: Funding Strategies</h4>
+                      <p className="text-emerald-600 text-sm">Pages 42-85</p>
                     </div>
                   </div>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4">
@@ -113,9 +114,13 @@ const BookShowcaseSection = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-flex items-center gap-2 bg-cyan-600 text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-cyan-700 transition-colors"
+                    onClick={()=>navigate("https://drive.google.com/file/d/1nkPiO9KerZjEi_eaSIOGtphsQTymUBo2/view?usp=sharing")}
                   >
+                    <Button>
                     <Download className="w-4 h-4" />
+
                     Download Free Sample Chapter
+                    </Button>
                   </motion.button>
                 </div>
               </div>

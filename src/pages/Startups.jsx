@@ -41,8 +41,10 @@ import { Badge } from "../components/ui/Badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/Tabs";
+import { AuthModal } from "../components/AuthModal";
+import { ListStartupModal } from "../components/ListStartupModal";
 
-// Helper functions
+// Helper functions (keep as is)
 const getStageColor = (stage) => {
   switch (stage?.toLowerCase()) {
     case "ideation": return "bg-blue-100 text-blue-800 border-blue-200";
@@ -81,7 +83,7 @@ const getStageIcon = (stage) => {
   }
 };
 
-// Startup Card Component
+// Startup Card Component (keep as is)
 function StartupCard({ startup, viewMode = "grid" }) {
   const [imageError, setImageError] = useState(false);
   const [logoUrl, setLogoUrl] = useState(null);
@@ -351,8 +353,28 @@ export function StartupsPage() {
     locations: [],
     totalFunding: 0
   });
+  
+  // Auth state and modals
+  const [user, setUser] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isListStartupModalOpen, setIsListStartupModalOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  // Monitor Auth State
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Fetch approved startups
   const fetchStartups = async () => {
@@ -442,6 +464,15 @@ export function StartupsPage() {
 
     setFilteredStartups(result);
   }, [searchQuery, sectorFilter, stageFilter, sortBy, startups]);
+
+  // Handle List Startup Click - Replicates the Home component logic
+  const handleListStartupClick = () => {
+    if (!user) {
+      setIsAuthModalOpen(true); // Force login if not authenticated
+    } else {
+      setIsListStartupModalOpen(true);
+    }
+  };
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -686,7 +717,7 @@ export function StartupsPage() {
                       variant="ghost"
                       size="sm"
                       onClick={handleClearFilters}
-                      className="text-red-600 hover:text-red-700"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 text-sm"
                     >
                       Clear all
                     </Button>
@@ -799,7 +830,7 @@ export function StartupsPage() {
                   </Button>
                 )}
                 <Button 
-                  onClick={() => navigate("/submit-startup")}
+                  onClick={handleListStartupClick}
                   className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-200"
                 >
                   <Sparkles className="w-4 h-4 mr-2" />
@@ -852,7 +883,7 @@ export function StartupsPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={() => navigate("/submit-startup")}
+                  onClick={handleListStartupClick}
                   className="bg-white text-red-600 hover:bg-red-50 font-bold px-8 py-6 text-lg rounded-xl shadow-2xl shadow-white/20 hover:shadow-white/30 transition-all duration-300 group"
                 >
                   List Your Startup Now
@@ -870,29 +901,20 @@ export function StartupsPage() {
             </div>
           </div>
         </div>
-
-        {/* Quick Stats Footer */}
-        {/* <div className="mt-12 pt-8 border-t border-slate-200">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{stats.total}</div>
-              <div className="text-sm text-slate-600">Active Startups</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">₹{stats.totalFunding > 1000 ? `${(stats.totalFunding/1000).toFixed(1)}Cr+` : `${stats.totalFunding}L+`}</div>
-              <div className="text-sm text-slate-600">Total Valuation</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{stats.sectors.length}</div>
-              <div className="text-sm text-slate-600">Diverse Sectors</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{stats.locations}</div>
-              <div className="text-sm text-slate-600">Northeast Cities</div>
-            </div>
-          </div>
-        </div> */}
       </div>
+
+      {/* Auth and List Startup Modals */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onListStartup={() => setIsListStartupModalOpen(true)}
+        onGoHome={() => navigate("/")}
+      />
+
+      <ListStartupModal
+        isOpen={isListStartupModalOpen}
+        onClose={() => setIsListStartupModalOpen(false)}
+      />
     </div>
   );
 }

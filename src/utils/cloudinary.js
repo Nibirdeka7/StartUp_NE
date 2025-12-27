@@ -191,7 +191,24 @@ export const uploadWithProgress = (file, folder = 'startups', onProgress) => {
     xhr.send(formData);
   });
 };
-
+export const uploadDPIITCertificate = async (file, startupName) => {
+  try {
+    if (!file) return null;
+    
+    const result = await uploadToCloudinary(
+      file, 
+      'startups/dpiit-certificates',
+      {
+        tags: `${startupName.toLowerCase().replace(/\s+/g, '-')}-dpiit`
+      }
+    );
+    
+    return result.url;
+  } catch (error) {
+    console.error("Error uploading DPIIT certificate:", error);
+    throw new Error("Failed to upload DPIIT certificate");
+  }
+};
 // Export as default
 const cloudinary = {
   uploadToCloudinary,
@@ -199,7 +216,8 @@ const cloudinary = {
   getOptimizedImageUrl,
   validateFile,
   createPreviewUrl,
-  uploadWithProgress
+  uploadWithProgress,
+  uploadDPIITCertificate
 };
 
 export default cloudinary;

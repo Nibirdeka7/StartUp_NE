@@ -8,29 +8,37 @@ import { Marquee } from "../components/ui/marquee";
 import { cn } from "../utils/cn";
 
 // Review Card Component
-const ReviewCard = ({ img, name, username, body }) => {
+const ReviewCard = ({ img, name, username, body, designation }) => {
   return (
     <figure
       className={cn(
         "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
-        // light styles
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        // dark styles
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
-          <User className="w-5 h-5 text-red-600" />
-        </div>
+        {/* Use the img prop if provided, otherwise use default */}
+        {img ? (
+          <img 
+            src={img} 
+            alt={name}
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
+            <User className="w-5 h-5 text-red-600" />
+          </div>
+        )}
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">
             {name}
           </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+          <p className="text-xs font-medium dark:text-white/40">
+            {designation} {username}
+          </p>
         </div>
       </div>
-      {/* FIX: Replace blockquote with div or use proper blockquote structure */}
       <div className="mt-2 text-sm">{body}</div>
       <div className="flex mt-3">
         {[...Array(5)].map((_, i) => (
@@ -54,140 +62,198 @@ export function Testimonials() {
   }, []);
 
   const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
-      
-      // Fix: Use the correct table name - should be 'startups' not 'startups' (you had a typo)
-      const { data: startups, error } = await supabase
-        .from('startups')
-        .select(`
-          *,
-          users!inner (
-            full_name,
-            email
-          )
-        `)
-        .eq('is_approved', true)
-        .not('feedback', 'is', null)
-        .order('approved_at', { ascending: false });
+  try {
+    setLoading(true);
+    
+    // Query startups with feedback
+    const { data: startups, error } = await supabase
+      .from('startups')
+      .select('*')
+      .eq('is_approved', true)
+      .not('feedback', 'is', null)
+      .order('approved_at', { ascending: false })
+      .limit(12); // Limit to 12 testimonials
 
-      if (error) throw error;
+    if (error) throw error;
 
-      // Transform data
-      const transformedTestimonials = (startups || []).map((startup, index) => {
-        const user = startup.users;
+    // Transform data using founders array
+    const transformedTestimonials = (startups || [])
+      .filter(startup => startup.feedback && startup.feedback.trim() !== '')
+      .map((startup, index) => {
         const startupName = startup.name || "Startup";
-        const userName = user?.full_name || startup.startup_email?.split('@')[0] || "Founder";
         
-        // Extract role from startup stage or description
-        let role = "Founder";
-        if (startup.stage) {
-          if (startup.stage.toLowerCase().includes('seed')) role = "Seed Stage Founder";
-          else if (startup.stage.toLowerCase().includes('series')) {
-            const seriesMatch = startup.stage.match(/\d+/);
-            role = `Series ${seriesMatch ? seriesMatch[0] : ''} Founder`;
-          } else role = `${startup.stage} Founder`;
+        // Extract founder information from founders JSONB array
+        let founderName = "Founder";
+        let founderDesignation = "Founder";
+        
+        try {
+          // Parse founders array (it's stored as JSONB)
+          const founders = Array.isArray(startup.founders) 
+            ? startup.founders 
+            : (typeof startup.founders === 'string' 
+                ? JSON.parse(startup.founders) 
+                : []);
+          
+          if (founders.length > 0) {
+            // Use the first founder in the array
+            const firstFounder = founders[0];
+            founderName = firstFounder.name || "Founder";
+            founderDesignation = firstFounder.designation || "Founder";
+          }
+        } catch (parseError) {
+          console.error("Error parsing founders data:", parseError);
+          // Fallback to email extraction if founders parsing fails
+          if (startup.startup_email) {
+            const emailName = startup.startup_email.split('@')[0];
+            founderName = emailName
+              .split(/[._]/)
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+          }
         }
+
+        // Extract startup stage for role
+        let stageRole = "Founder";
+        if (startup.stage) {
+          const stageLower = startup.stage.toLowerCase();
+          if (stageLower.includes('ideation')) stageRole = "Idea Stage Founder";
+          else if (stageLower.includes('mvp')) stageRole = "MVP Stage Founder";
+          else if (stageLower.includes('seed')) stageRole = "Seed Stage Founder";
+          else if (stageLower.includes('series')) {
+            const seriesMatch = startup.stage.match(/\d+/);
+            stageRole = `Series ${seriesMatch ? seriesMatch[0] : ''} Founder`;
+          } else if (stageLower.includes('revenue')) stageRole = "Revenue Generating Founder";
+          else stageRole = `${startup.stage} Founder`;
+        }
+
+        // Generate username for marquee
+        const username = `@${founderName.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12)}`;
+
+        // Create avatar URL
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(founderName)}&background=dc2626&color=fff`;
 
         return {
           id: startup.id,
-          name: userName,
-          role: `${role}, ${startupName}`,
+          name: founderName,
+          designation: founderDesignation,
+          role: `${stageRole}, ${startupName}`,
+          username: username,
           company: startup.sector || "Startup",
-          content: startup.feedback || "Great support from Startup Northeast!",
-          rating: 5, // Default rating
+          content: startup.feedback,
+          rating: 5,
           location: startup.location || "Northeast India",
           featured: index < 2, // First 2 are featured
+          avatar: avatarUrl
         };
       });
 
-      // If no testimonials from DB, use fallback
-      if (transformedTestimonials.length === 0) {
-        setTestimonials([
-          {
-            id: "1",
-            name: "Arjun Sharma",
-            role: "Founder, AgroTech NE",
-            company: "AgriTech Startup",
-            content: "Startup Northeast helped us secure ₹5 Cr funding within 6 months. Their mentorship program transformed our business approach.",
-            rating: 5,
-            location: "Guwahati, Assam",
-            featured: true,
-          },
-          {
-            id: "2",
-            name: "Priya Das",
-            role: "CEO, Bamboo Innovations",
-            company: "Sustainable Products",
-            content: "The platform connected us with the right investors and provided legal support that saved us months of paperwork.",
-            rating: 5,
-            location: "Imphal, Manipur",
-            featured: true,
-          },
-          {
-            id: "3",
-            name: "Rajesh Meitei",
-            role: "Co-Founder, HealthConnect NE",
-            company: "HealthTech",
-            content: "From pitch deck creation to investor meetings, every service exceeded our expectations.",
-            rating: 4,
-            location: "Aizawl, Mizoram",
-            featured: false,
-          },
-          {
-            id: "4",
-            name: "Sunita Khongwir",
-            role: "Director, NE Craft Hub",
-            company: "E-commerce Platform",
-            content: "The startup community here is amazing. We've found mentors, partners, and investors all in one place.",
-            rating: 5,
-            location: "Shillong, Meghalaya",
-            featured: false,
-          },
-        ]);
-      } else {
-        setTestimonials(transformedTestimonials);
-      }
-    } catch (error) {
-      console.error("Error fetching testimonials:", error);
-      // Fallback testimonials
+    // If no testimonials from DB, use fallback
+    if (transformedTestimonials.length === 0) {
       setTestimonials([
         {
           id: "1",
           name: "Arjun Sharma",
+          designation: "CEO",
           role: "Founder, AgroTech NE",
+          username: "@arjunsharma",
           company: "AgriTech Startup",
-          content: "Startup Northeast helped us secure ₹5 Cr funding within 6 months.",
+          content: "Startup Northeast helped us secure ₹5 Cr funding within 6 months. Their mentorship program transformed our business approach.",
           rating: 5,
           location: "Guwahati, Assam",
           featured: true,
+          avatar: `https://ui-avatars.com/api/?name=Arjun+Sharma&background=dc2626&color=fff`
         },
         {
           id: "2",
           name: "Priya Das",
-          role: "CEO, Bamboo Innovations",
+          designation: "CEO",
+          role: "Founder, Bamboo Innovations",
+          username: "@priyadas",
           company: "Sustainable Products",
-          content: "Connected us with the right investors and saved us months of paperwork.",
+          content: "The platform connected us with the right investors and provided legal support that saved us months of paperwork.",
           rating: 5,
           location: "Imphal, Manipur",
           featured: true,
+          avatar: `https://ui-avatars.com/api/?name=Priya+Das&background=dc2626&color=fff`
+        },
+        {
+          id: "3",
+          name: "Rajesh Meitei",
+          designation: "Co-Founder",
+          role: "Co-Founder, HealthConnect NE",
+          username: "@rajeshmeitei",
+          company: "HealthTech",
+          content: "From pitch deck creation to investor meetings, every service exceeded our expectations.",
+          rating: 4,
+          location: "Aizawl, Mizoram",
+          featured: false,
+          avatar: `https://ui-avatars.com/api/?name=Rajesh+Meitei&background=dc2626&color=fff`
+        },
+        {
+          id: "4",
+          name: "Sunita Khongwir",
+          designation: "Director",
+          role: "Director, NE Craft Hub",
+          username: "@sunitakhongwir",
+          company: "E-commerce Platform",
+          content: "The startup community here is amazing. We've found mentors, partners, and investors all in one place.",
+          rating: 5,
+          location: "Shillong, Meghalaya",
+          featured: false,
+          avatar: `https://ui-avatars.com/api/?name=Sunita+Khongwir&background=dc2626&color=fff`
         },
       ]);
-    } finally {
-      setLoading(false);
+    } else {
+      setTestimonials(transformedTestimonials);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching testimonials:", error);
+    // Fallback testimonials
+    setTestimonials([
+      {
+        id: "1",
+        name: "Arjun Sharma",
+        designation: "CEO",
+        role: "Founder, AgroTech NE",
+        username: "@arjunsharma",
+        company: "AgriTech Startup",
+        content: "Startup Northeast helped us secure ₹5 Cr funding within 6 months.",
+        rating: 5,
+        location: "Guwahati, Assam",
+        featured: true,
+        avatar: `https://ui-avatars.com/api/?name=Arjun+Sharma&background=dc2626&color=fff`
+      },
+      {
+        id: "2",
+        name: "Priya Das",
+        designation: "CEO",
+        role: "Founder, Bamboo Innovations",
+        username: "@priyadas",
+        company: "Sustainable Products",
+        content: "Connected us with the right investors and saved us months of paperwork.",
+        rating: 5,
+        location: "Imphal, Manipur",
+        featured: true,
+        avatar: `https://ui-avatars.com/api/?name=Priya+Das&background=dc2626&color=fff`
+      },
+    ]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const featuredTestimonials = testimonials.filter(t => t.featured);
   const otherTestimonials = testimonials.filter(t => !t.featured);
 
   // Prepare reviews for marquee
-  const marqueeReviews = testimonials.map(testimonial => ({
-    name: testimonial.name,
-    username: `@${testimonial.role.split(',')[0]?.toLowerCase().replace(/\s+/g, '') || 'founder'}`,
-    body: testimonial.content,
-    img: `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=fff`
-  }));
+  // Prepare reviews for marquee
+const marqueeReviews = testimonials.map(testimonial => ({
+  name: testimonial.name,
+  username: testimonial.username || `@${testimonial.name.toLowerCase().replace(/\s+/g, '')}`,
+  designation: testimonial.designation || "Founder",
+  body: testimonial.content,
+  img: testimonial.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=dc2626&color=fff`
+}));
 
   const firstRow = marqueeReviews.slice(0, Math.ceil(marqueeReviews.length / 2));
   const secondRow = marqueeReviews.slice(Math.ceil(marqueeReviews.length / 2));
@@ -215,7 +281,6 @@ export function Testimonials() {
           className="text-center mb-8 md:mb-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-red-200 border border-red-300 mb-4">
-            <Sparkles className="w-4 h-4 text-red-600" />
             <span className="text-sm text-red-800 font-medium">Success Stories</span>
           </div>
           <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-4 font-montserrat">
@@ -254,7 +319,12 @@ export function Testimonials() {
                   </div>
 
                   {/* Content */}
-                  <div className="text-slate-700 mb-6 font-poppins leading-relaxed"> {/* Changed p to div */}
+                  <div className=" text-slate-700
+    mb-6
+    font-poppins
+    leading-relaxed
+    line-clamp-4
+    break-words"> {/* Changed p to div */}
                     "{testimonial.content}"
                   </div>
 
@@ -265,7 +335,9 @@ export function Testimonials() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-slate-900 font-montserrat">{testimonial.name}</h4>
-                      <div className="text-sm text-slate-600 font-poppins">{testimonial.role}</div> {/* Changed p to div */}
+                      <div className="text-sm text-slate-600 font-poppins">
+                        {testimonial.designation} • {testimonial.role}
+                      </div> {/* Changed p to div */}
                       <div className="flex items-center gap-1 mt-1">
                         <Building2 className="w-3 h-3 text-slate-400" />
                         <span className="text-xs text-slate-500">{testimonial.location}</span>
@@ -370,10 +442,11 @@ export function Testimonials() {
                             <h4 className="font-semibold text-sm text-slate-900 truncate font-montserrat">
                               {testimonial.name}
                             </h4>
-                            <div className="text-xs text-slate-600 truncate font-poppins"> {/* Changed p to div */}
-                              {testimonial.role}
-                            </div>
-                          </div>
+                            // In the regular testimonials dropdown:
+            <div className="text-xs text-slate-600 truncate font-poppins">
+              {testimonial.designation} • {testimonial.role}
+            </div>
+                                      </div>
                         </div>
                       </CardContent>
                     </Card>

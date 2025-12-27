@@ -1506,7 +1506,7 @@ export function StartupDetail() {
                       {editMode ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="md:col-span-2">
-                            <Label className="text-sm font-medium text-slate-700 mb-2 block">Current Valuation</Label>
+                            <Label className="text-sm font-medium text-slate-700 mb-2 block">Current Valuation (in Cr)</Label>
                             <Input
                               value={formData.current_valuation}
                               onChange={(e) => setFormData(prev => ({ ...prev, current_valuation: e.target.value }))}
@@ -1572,7 +1572,7 @@ export function StartupDetail() {
                                       <DollarSign className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
-                                      <p className="text-sm text-slate-600">Current Valuation</p>
+                                      <p className="text-sm text-slate-600">Current Valuation (in Cr)</p>
                                       <p className="text-xl font-bold text-slate-900">{formatCurrency(startup.current_valuation)}</p>
                                     </div>
                                   </div>

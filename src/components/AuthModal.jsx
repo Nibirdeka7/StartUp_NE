@@ -8,7 +8,7 @@ import {
 } from "../components/ui/dialog";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
-import { ArrowRight, Sparkles, Home, Loader2, Eye, EyeOff, UserPlus, LogIn, Mail } from "lucide-react";
+import { ArrowRight, Sparkles, Home, Loader2, Eye, EyeOff, UserPlus, LogIn, Mail, Clock } from "lucide-react";
 import { supabase } from "../utils/supabaseClient";
 
 const STEPS = {
@@ -33,6 +33,19 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
   });
   const [errors, setErrors] = useState({});
   const [userExists, setUserExists] = useState(false);
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [otpSent, setOtpSent] = useState(false);
+
+  // Timer for OTP resend
+  useEffect(() => {
+    let interval;
+    if (otpTimer > 0) {
+      interval = setInterval(() => {
+        setOtpTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpTimer]);
 
   // Reset modal state when closed
   const handleClose = () => {
@@ -40,6 +53,8 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
     setFormData({ name: "", email: "", password: "", confirmPassword: "", otp: "" });
     setErrors({});
     setUserExists(false);
+    setOtpTimer(0);
+    setOtpSent(false);
     onClose();
   };
 
@@ -150,7 +165,7 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
     }
   };
 
-  // Sign up new user
+  // Sign up new user with OTP
   const handleSignUp = async (e) => {
     e?.preventDefault();
     
@@ -173,7 +188,7 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
         return;
       }
       
-      // Create user in Supabase Auth with OTP
+      // Create user with password - this will automatically send OTP if email confirmations are enabled
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -181,7 +196,7 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
           data: {
             full_name: formData.name,
           },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          emailRedirectTo: null,
         },
       });
 
@@ -193,19 +208,29 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
           setErrors({ general: error.message });
         }
       } else {
-        // Send OTP for verification
-        const { error: otpError } = await supabase.auth.signInWithOtp({
-          email: formData.email,
-          options: {
-            data: { full_name: formData.name },
-            emailRedirectTo: null,
-          },
-        });
-        
-        if (otpError) {
-          setErrors({ general: otpError.message });
-        } else {
+        // User created, OTP should be sent automatically via email
+        if (data.user && !data.user.email_confirmed_at) {
+          setOtpSent(true);
+          setOtpTimer(60); // 60 seconds timer
           setStep(STEPS.VERIFY_OTP);
+        } else if (data.user?.email_confirmed_at) {
+          // Email already confirmed (shouldn't happen with new users)
+          // Create user profile and proceed to onboarding
+          const { error: profileError } = await supabase
+            .from('users')
+            .insert({
+              id: data.user.id,
+              email: formData.email,
+              full_name: formData.name,
+              role: 'user',
+              created_at: new Date().toISOString(),
+            });
+          
+          if (profileError) {
+            console.error("Error creating user profile:", profileError);
+          }
+          
+          setStep(STEPS.ONBOARDING);
         }
       }
     } catch (error) {
@@ -291,20 +316,42 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
 
   // Resend OTP
   const handleResendOTP = async () => {
+    if (otpTimer > 0) {
+      setErrors({ general: `Please wait ${otpTimer} seconds before resending OTP` });
+      return;
+    }
+    
     setLoading(true);
     setErrors({});
     
     try {
+      // Try to resend signup OTP
       const { error } = await supabase.auth.signInWithOtp({
         email: formData.email,
         options: {
           data: { full_name: formData.name },
+          emailRedirectTo: null,
         },
       });
       
       if (error) {
-        setErrors({ general: error.message });
+        // If that fails, try to resend verification email
+        const { error: resendError } = await supabase.auth.resend({
+          type: 'signup',
+          email: formData.email,
+          options: {
+            data: { full_name: formData.name },
+          },
+        });
+        
+        if (resendError) {
+          setErrors({ general: resendError.message });
+        } else {
+          setOtpTimer(60); // Reset timer to 60 seconds
+          alert("OTP has been resent to your email.");
+        }
       } else {
+        setOtpTimer(60); // Reset timer to 60 seconds
         alert("OTP has been resent to your email.");
       }
     } catch (error) {
@@ -774,6 +821,10 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
               </DialogTitle>
               <DialogDescription className="font-poppins text-slate-600">
                 We've sent a 6-digit OTP to <strong>{formData.email}</strong>
+                <br />
+                <span className="text-xs text-gray-500">
+                  Check your spam folder if you don't see it in your inbox
+                </span>
               </DialogDescription>
             </DialogHeader>
             
@@ -785,7 +836,15 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
               )}
               
               <div className="space-y-2">
-                <label className="text-sm font-medium font-poppins">Enter OTP</label>
+                <label className="text-sm font-medium font-poppins flex items-center justify-between">
+                  <span>Enter 6-digit OTP</span>
+                  {otpTimer > 0 && (
+                    <span className="text-sm text-red-600 flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {otpTimer}s
+                    </span>
+                  )}
+                </label>
                 <Input
                   type="text"
                   placeholder="123456"
@@ -797,6 +856,7 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
                   className={errors.otp ? "border-red-500 text-center text-xl" : "text-center text-xl"}
                   maxLength={6}
                   required
+                  autoFocus
                 />
                 {errors.otp && <p className="text-red-500 text-xs">{errors.otp}</p>}
               </div>
@@ -806,10 +866,10 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
                   type="button"
                   variant="outline"
                   onClick={handleResendOTP}
-                  disabled={loading}
+                  disabled={loading || otpTimer > 0}
                   className="flex-1 font-poppins"
                 >
-                  Resend OTP
+                  {otpTimer > 0 ? `Resend in ${otpTimer}s` : "Resend OTP"}
                 </Button>
                 <Button
                   type="submit"

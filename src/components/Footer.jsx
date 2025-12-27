@@ -86,12 +86,12 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <a href="#" className="hover:text-red-400 transition-colors py-1">
+                <a href="/services" className="hover:text-red-400 transition-colors py-1">
                   Funding Support
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-red-400 transition-colors py-1">
+                <a href="/services" className="hover:text-red-400 transition-colors py-1">
                   Mentorship Program
                 </a>
               </li>
@@ -104,7 +104,7 @@ export function Footer() {
                 </button>
               </li>
               <li>
-                <a href="#" className="hover:text-red-400 transition-colors py-1">
+                <a href="/services" className="hover:text-red-400 transition-colors py-1">
                   Resources
                 </a>
               </li>
@@ -121,14 +121,16 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0 text-red-400" />
-                <a href="mailto:hello@startupne.in" className="hover:text-red-400 transition-colors">
-                  hello@startupne.in
+                <a href="mailto:connect.startupnortheast@gmail.com
+" className="hover:text-red-400 transition-colors">
+                  connect.startupnortheast@gmail.com
+
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0 text-red-400" />
-                <a href="tel:+911234567890" className="hover:text-red-400 transition-colors">
-                  +91 123 456 7890
+                <a href="tel:+919957172045" className="hover:text-red-400 transition-colors">
+                  +91 9957172045
                 </a>
               </li>
             </ul>
@@ -181,13 +183,13 @@ export function Footer() {
               © 2025 Startup Northeast. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-3 md:gap-6 font-poppins">
-              <a href="#" className="text-slate-500 hover:text-red-400 transition-colors">
+              <a href="/privacy" className="text-slate-500 hover:text-red-400 transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="text-slate-500 hover:text-red-400 transition-colors">
+              <a href="/terms" className="text-slate-500 hover:text-red-400 transition-colors">
                 Terms of Service
               </a>
-              <a href="#" className="text-slate-500 hover:text-red-400 transition-colors">
+              <a href="/cookies" className="text-slate-500 hover:text-red-400 transition-colors">
                 Cookie Policy
               </a>
             </div>

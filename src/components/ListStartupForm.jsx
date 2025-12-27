@@ -19,6 +19,7 @@ import { Button } from "../components/ui/Button";
 import { ArrowLeft, ArrowRight, Smartphone } from "lucide-react";
 import uploadStartupLogo from "../utils/uploadLogo";
 import { supabase } from "../utils/supabaseClient";
+import { uploadDPIITCertificate } from "../utils/cloudinary";
 
 // --- ZOD Schema for Validation ---
 const formSchema = z.object({
@@ -56,6 +57,19 @@ const formSchema = z.object({
       ["image/png", "image/jpeg", "image/webp"].includes(file.type),
     "Only PNG, JPG, or WEBP images are allowed"
   ),
+  dpiitCertificate: z
+    .any()
+    .optional()
+    .refine(
+      (file) => !file || file.size <= 5_000_000,
+      "DPIIT Certificate must be less than 5MB"
+    )
+    .refine(
+      (file) =>
+        !file ||
+        ["application/pdf", "image/png", "image/jpeg", "image/webp"].includes(file.type),
+      "Only PDF, PNG, JPG, or WEBP files are allowed"
+    ),
 
   // Step 4: 
   feedback: z.string().min(10, "Please share a brief testimonial (min 10 characters)."),
@@ -89,6 +103,7 @@ export function ListStartupForm({ onSubmitSuccess }) {
       currentValuation: "",
       fundedBy: "",
       website: "", facebook: "", instagram: "", linkedin: "", twitter: "", logo: undefined,
+      dpiitCertificate: undefined,
       feedback: "",
     },
   });
@@ -142,6 +157,10 @@ export function ListStartupForm({ onSubmitSuccess }) {
     if (data.logo instanceof File) {
       logoPath = await uploadStartupLogo(data.logo, data.name);
     }
+    let dpiitCertificatePath = null;
+    if (data.dpiitCertificate instanceof File) {
+      dpiitCertificatePath = await uploadDPIITCertificate(data.dpiitCertificate, data.name);
+    }
 
     const payload = {
       user_id: user.id, 
@@ -160,6 +179,7 @@ export function ListStartupForm({ onSubmitSuccess }) {
       linkedin: data.linkedin || null,
       twitter: data.twitter || null,
       logo_path: logoPath, 
+      dpiit_certificate_path: dpiitCertificatePath,
       feedback: data.feedback,
       founders: [
         {
@@ -506,6 +526,40 @@ export function ListStartupForm({ onSubmitSuccess }) {
             <FormMessage className="text-xs sm:text-sm" />
           </FormItem>
         )} />
+        <FormField control={form.control} name="dpiitCertificate" render={({ field }) => (
+        <FormItem className="sm:col-span-2">
+          <FormLabel className="font-poppins text-sm sm:text-base text-oxford-blue">
+            DPIIT Certificate (Optional)
+          </FormLabel>
+          <div className="text-xs text-gray-500 mb-1">
+            Upload your DPIIT Recognition Certificate (PDF or Image)
+          </div>
+          <div className="text-xs text-blue-600 mb-2">
+            If you have DPIIT recognition, upload your certificate here. This helps in verification.
+          </div>
+          <FormControl>
+            <div className="flex flex-col gap-2">
+              <Input 
+                type="file" 
+                accept=".pdf,.png,.jpg,.jpeg,.webp"
+                className="h-10 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                onChange={(e) => field.onChange(e.target.files?.[0])}
+              />
+              {field.value && (
+                <div className="flex items-center gap-2">
+                  <div className="text-xs text-green-600">
+                    ✓ Certificate selected: {field.value.name}
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    ({Math.round(field.value.size / 1024)} KB)
+                  </span>
+                </div>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage className="text-xs sm:text-sm" />
+        </FormItem>
+      )} />
       </div>
     </div>
   );
