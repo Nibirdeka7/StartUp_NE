@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './components/Navbar.jsx'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
@@ -20,7 +20,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 import TermsOfService from './pages/TermsOfService.jsx'
 import CookiesPolicy from './pages/Cookies.jsx'
 import CookieConsent from './components/CookieConsent.jsx'
+import NotFoundPage from './pages/NotFound.jsx'
 const App = () => {
+  
   return (
     <div>
     
@@ -30,7 +32,7 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/startups" element={<StartupsPage />} />
-          <Route path="/startup/:id" element={ <StartupDetail /> } />  // TODO: Create Startup Detail Page
+          <Route path="/startup/:id" element={<StartupDetail />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/my-blogs" element={<MyBlogsPage />} />
           <Route path="/blog/create" element={<CreateBlogPage />} />
@@ -46,7 +48,7 @@ const App = () => {
           <Route path="/terms" element={<TermsOfService/>}/>
           <Route path="/cookies" element={<CookiesPolicy />} />
 
-
+           <Route path="*" element={<NotFoundPage />} />  
         </Routes>
         <Footer />
     </div>
