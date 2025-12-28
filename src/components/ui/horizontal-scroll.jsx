@@ -1,6 +1,6 @@
 
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useTransform, useScroll } from "framer-motion";
 import { MapPin, TrendingUp, Building, Globe, ChevronRight, Building2, Target, ArrowUpRight, Globe2 } from "lucide-react";
 
@@ -36,7 +36,7 @@ const provincesData = [
   {
     name: "Tripura",
     startups: 245,
-    funding: "₹12.8B",
+    funding: "N/A",
     video: "https://res.cloudinary.com/dsnjjxtkk/video/upload/v1766742722/tripura_dzjoel.mp4",
     sector: "E-commerce",
     maskSvg: createSvgMask(provinceShapes.tripura, "610 310 10 75")
@@ -244,7 +244,24 @@ const provincesData = [
 const HorizontalScrollCarousel = () => {
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: targetRef });
-  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-70%"]);
+  // const x = useTransform(scrollYProgress, [0, 1], ["2%", "-90%"]);
+
+const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const checkScreen = () => setIsMobile(window.innerWidth < 768);
+
+  checkScreen(); // initial check
+  window.addEventListener("resize", checkScreen);
+
+  return () => window.removeEventListener("resize", checkScreen);
+}, []);
+
+const x = useTransform(
+  scrollYProgress,
+  [0, 1],
+  isMobile ? ["0%", "-90%"] : ["2%", "-70%"]
+);
 
   return (
     <div className="relative bg-white pt-24">

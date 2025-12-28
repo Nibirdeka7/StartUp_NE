@@ -1,6 +1,6 @@
 import { Sparkles, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
 import { Button } from "../components/ui/Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Footer() {
   const navigate = useNavigate();
@@ -183,15 +183,15 @@ export function Footer() {
               © 2025 Startup Northeast. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-3 md:gap-6 font-poppins">
-              <a href="/privacy" className="text-slate-500 hover:text-red-400 transition-colors">
+              <button onClick={()=>navigate("/privacy")} className="text-slate-500 hover:text-red-400 transition-colors">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-slate-500 hover:text-red-400 transition-colors">
+              </button>
+              <button onClick={()=>navigate("/terms")} className="text-slate-500 hover:text-red-400 transition-colors">
                 Terms of Service
-              </a>
-              <a href="/cookies" className="text-slate-500 hover:text-red-400 transition-colors">
+              </button>
+              <button onClick={()=>navigate("/cookies")} className="text-slate-500 hover:text-red-400 transition-colors">
                 Cookie Policy
-              </a>
+              </button>
             </div>
           </div>
         </div>

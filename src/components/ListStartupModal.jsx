@@ -47,7 +47,7 @@ export function ListStartupModal({ isOpen, onClose }) {
                     Submission Successful!
                 </DialogTitle>
                 <p className="font-poppins text-base sm:text-lg text-slate-700 mt-3 sm:mt-4 text-center px-2">
-                    Thank you for listing your startup. We will review your submission shortly.
+                    Thank you for listing your startup. We will review your submission shortly & update you over your email.
                 </p>
                 <Button onClick={onClose} className="mt-6 sm:mt-8 bg-red-600 hover:bg-red-700 w-full sm:w-auto px-8">
                     Close

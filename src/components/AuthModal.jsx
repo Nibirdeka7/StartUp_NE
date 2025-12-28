@@ -901,7 +901,6 @@ export function AuthModal({ isOpen, onClose, onListStartup, onGoHome }) {
         return (
           <>
             <DialogHeader className="text-center">
-              <Sparkles className="w-10 h-10 mx-auto text-red-500 mb-2" />
               <DialogTitle className="font-montserrat text-3xl text-oxford-blue">
                 Welcome, {formData.name?.split(' ')[0] || "Innovator"}!
               </DialogTitle>

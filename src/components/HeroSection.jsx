@@ -155,16 +155,19 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                   <div className="w-full h-full">
                     <NEIndiaMap />
                   </div>
+                   <p className="mt-8 text-sm text-center text-gray-500">Click on the states to see details</p>
                 </div>
+              
 
                 {/* Map Legend */}
+               
                 
               </div>
             </motion.div>
           </div>
 
           {/* Trust Badge - Centered at bottom */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
@@ -185,7 +188,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       {/* </GridBeam> */}
     </div>

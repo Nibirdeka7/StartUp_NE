@@ -214,7 +214,7 @@ const formatCurrency = (val) => {
         ))}
 
         {/* State Labels */}
-        {Object.entries(stateData).map(([key, data]) => (
+        {/* {Object.entries(stateData).map(([key, data]) => (
           <text
             key={key}
             x={labelPositions[key].x}
@@ -231,8 +231,31 @@ const formatCurrency = (val) => {
           >
             {data.name}
           </text>
-        ))}
+        ))} */}
       </svg>
+          {/* Professional Minimalist Labels */}
+<div className="absolute inset-0 pointer-events-none">
+  {Object.entries(stateData).map(([key, data]) => (
+    <div
+      key={key}
+      style={{
+        position: 'absolute',
+        left: `${(labelPositions[key].x - 500) / 3}%`,
+        top: `${(labelPositions[key].y - 180) / 2.5}%`,
+        transform: 'translate(-50%, -50%)',
+      }}
+      className="flex flex-col items-center"
+    >
+      {/* 1. Static Anchor Dot */}
+      <div className="w-1 h-1 rounded-full bg-red-500 mb-1" />
+
+      {/* 2. Static Pure Black Label */}
+      <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.1em] text-black font-montserrat whitespace-nowrap">
+        {data.name}
+      </span>
+    </div>
+  ))}
+</div>
 
       {/* Map Legend */}
        

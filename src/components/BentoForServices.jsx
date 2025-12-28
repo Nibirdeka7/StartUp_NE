@@ -12,8 +12,11 @@ import {
   IconArrowRight,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
+import { GlowingEffect } from "../components/ui/glowing-effect";
 
 export function ServicesIntroBentoGrid() {
+  const navigate = useNavigate();
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
       <div className="text-center mb-10 sm:mb-12">
@@ -26,6 +29,7 @@ export function ServicesIntroBentoGrid() {
       </div>
 
       <div className="overflow-hidden">
+       
         <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem]">
           {items.map((item, i) => (
             <BentoGridItem
@@ -47,18 +51,76 @@ export function ServicesIntroBentoGrid() {
       </div>
 
       <div className="text-center mt-10 sm:mt-12 px-4">
-        <a
-          href="/services"
+        <button
+          onClick={()=>navigate("/services")}
           className="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 sm:py-3 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm sm:text-base"
         >
           View All Services
           <IconArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-        </a>
+        </button>
       </div>
     </div>
   );
 }
 
+
+// const SkeletonOne = () => {
+//   const variants = {
+//     initial: {
+//       x: 0,
+//     },
+//     animate: {
+//       x: 10,
+//       rotate: 5,
+//       transition: {
+//         duration: 0.2,
+//       },
+//     },
+//   };
+//   const variantsSecond = {
+//     initial: {
+//       x: 0,
+//     },
+//     animate: {
+//       x: -10,
+//       rotate: -5,
+//       transition: {
+//         duration: 0.2,
+//       },
+//     },
+//   };
+
+//   return (
+//     <motion.div
+//       initial="initial"
+//       whileHover="animate"
+//       className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-2"
+//     >
+//       <motion.div
+//         variants={variants}
+//         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
+//       >
+//         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+//         <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+//       </motion.div>
+//       <motion.div
+//         variants={variantsSecond}
+//         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 w-3/4 ml-auto bg-white dark:bg-black"
+//       >
+//         <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+//         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+//       </motion.div>
+//       <motion.div
+//         variants={variants}
+//         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
+//       >
+//         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
+//         <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+//       </motion.div>
+//     </motion.div>
+//   );
+// };
+// Alternative version with more detailed text
 const SkeletonOne = () => {
   const variants = {
     initial: {
@@ -90,19 +152,25 @@ const SkeletonOne = () => {
       initial="initial"
       whileHover="animate"
       className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-2"
+      
     >
       <motion.div
         variants={variants}
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
       >
+
         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
-        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+        <div className="w-full text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 truncate px-2">
+          Private Limited • LLP • OPC
+        </div>
       </motion.div>
       <motion.div
         variants={variantsSecond}
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 w-3/4 ml-auto bg-white dark:bg-black"
       >
-        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+        <div className="w-full text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 truncate px-2">
+          Trademark & IP Registration
+        </div>
         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
       </motion.div>
       <motion.div
@@ -110,7 +178,9 @@ const SkeletonOne = () => {
         className="flex flex-row rounded-full border border-neutral-100 dark:border-white/[0.2] p-2 items-center space-x-2 bg-white dark:bg-black"
       >
         <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-gradient-to-r from-red-700 to-red-500 shrink-0" />
-        <div className="w-full bg-gray-100 h-3 sm:h-4 rounded-full dark:bg-neutral-900" />
+        <div className="w-full text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 truncate px-2">
+          Annual Compliance & Filing
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -224,6 +294,7 @@ const SkeletonFour = () => {
       initial="initial"
       animate="animate"
       whileHover="hover"
+
       className="flex flex-1 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-row space-x-1 sm:space-x-2"
     >
       <motion.div
@@ -333,6 +404,7 @@ const items = [
         Private Limited, LLP, OPC, Section 8 companies with full compliance support.
       </span>
     ),
+    // header: <SkeletonOne />,
     header: <SkeletonOne />,
     className: "md:col-span-1",
     icon: <IconBuildingSkyscraper className="h-4 w-4 text-red-700" />,
