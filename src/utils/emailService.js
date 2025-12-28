@@ -11,7 +11,7 @@ export const sendApprovalEmail = async (toEmail, startupName, startupId, founder
   try {
     // console.log('📧 Attempting to send approval email via EmailJS...');
     
-    const appUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+    const appUrl = import.meta.env.VITE_APP_URL ;
     const updateUrl = `${appUrl}/startup/${startupId}`;
     
     // Prepare template parameters
