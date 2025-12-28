@@ -202,7 +202,7 @@ CombinedBookShowcase = () => {
                     <div className="relative w-full h-full">
                       {/* Book Cover Image */}
                       <img 
-                        src="/e-book.png" 
+                        src="https://res.cloudinary.com/dsnjjxtkk/image/upload/v1766858403/startups/dpiit-certificates/ow9r9xoxgurrlojn1ggj.png" 
                         alt="The 6-Month Guide to Building Your NE Startup"
                         className="w-full h-full object-cover"
                         onError={(e) => {

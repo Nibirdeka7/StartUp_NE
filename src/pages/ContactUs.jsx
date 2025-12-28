@@ -56,30 +56,33 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        state: '',
-        message: '',
-        service: 'general'
-      });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const to = "connect.startupnortheast@gmail.com";
+  const subject = `Contact from ${formData.name}`;
+  const body = `
+  Name: ${formData.name}
+  Email: ${formData.email}
+  Company: ${formData.company}
+  State: ${formData.state}
+  Service: ${formData.service}
+  Message: ${formData.message}`;
+
+  const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+};
+
+
 
   const contactInfo = [
     {
       icon: Mail,
       title: 'Email Us',
-      details: ['support@startupne.in', 'partnerships@startupne.in'],
+      details: ['connect.startupnortheast@gmail.com', 'nibird.dev@gmail.com'],
       color: 'from-red-600 to-red-800'
     },
     {
@@ -87,18 +90,6 @@ const ContactPage = () => {
       title: 'Call Us',
       details: ['+91 60000 12345', '+91 70000 54321'],
       color: 'from-blue-600 to-blue-800'
-    },
-    {
-      icon: MapPin,
-      title: 'Visit Us',
-      details: ['Guwahati, Assam', 'Shillong, Meghalaya'],
-      color: 'from-emerald-600 to-emerald-800'
-    },
-    {
-      icon: Clock,
-      title: 'Business Hours',
-      details: ['Monday - Friday: 10AM - 6PM IST', 'Saturday: 10AM - 3PM IST'],
-      color: 'from-purple-600 to-purple-800'
     }
   ];
 
@@ -166,13 +157,13 @@ const ContactPage = () => {
                       Guwahati, Assam
                     </p>
                   </div>
-                  <div className="bg-slate-50 rounded-lg p-4">
+                  {/* <div className="bg-slate-50 rounded-lg p-4">
                     <h4 className="font-bold mb-1">Shillong Office</h4>
                     <p className="text-sm text-slate-600">
                       Innovation Centre Meghalaya<br />
                       Shillong
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
