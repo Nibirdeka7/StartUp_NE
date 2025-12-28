@@ -151,7 +151,7 @@ function Navbar() {
             ) : (
               <div className="flex items-center gap-2">
                 <button
-                  // onClick={() => navigate("/profile")}
+                  onClick={() => navigate("/profile")}
                   className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-700 border border-red-200 hover:bg-red-200 transition-colors"
                   title="Profile"
                 >
