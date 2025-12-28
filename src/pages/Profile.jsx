@@ -1,4 +1,4 @@
-// app/profile/page.jsx or pages/profile.jsx depending on your setup
+// app/profile/page.jsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -27,12 +27,23 @@ import {
   Building,
   FileText,
   Video,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Save,
+  LogOut,
+  Eye,
+  EyeOff,
+  Lock,
+  Bell,
+  Trash2,
+  Link,
+  Camera
 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { GridBeam } from "../components/ui/GridBeam";
 import { Highlight } from "../components/ui/hero-highlight";
-import { supabase } from "../utils/supabaseClient"; // Adjust based on your setup
+import { supabase } from "../utils/supabaseClient";
+import { toast, Toaster } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 // Tab Navigation Component
 function ProfileTabs({ activeTab, setActiveTab }) {
@@ -67,19 +78,47 @@ function ProfileTabs({ activeTab, setActiveTab }) {
 }
 
 // Profile Header Component
-function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) {
-  const [tempAvatar, setTempAvatar] = useState(null);
-  
-  const handleAvatarUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Implement Supabase storage upload here
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setTempAvatar(reader.result);
-      };
-      reader.readAsDataURL(file);
+function ProfileHeader({ 
+  user, 
+  startupCount, 
+  isEditing, 
+  setIsEditing, 
+  onSave, 
+  onAvatarUpload,
+  tempAvatar 
+}) {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    bio: '',
+    location: '',
+    website: '',
+    phone: ''
+  });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        username: user.username || '',
+        email: user.email || '',
+        bio: user.bio || '',
+        location: user.location || '',
+        website: user.website || '',
+        phone: user.phone || ''
+      });
     }
+  }, [user]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleAvatarClick = () => {
+    document.getElementById('avatar-upload').click();
   };
 
   return (
@@ -90,31 +129,38 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
       <div className="relative flex flex-col md:flex-row items-start md:items-center gap-6">
         {/* Avatar Section */}
         <div className="relative">
-          <div className="relative w-32 h-32 rounded-2xl border-4 border-white shadow-lg overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+          <div className="relative w-32 h-32 rounded-2xl border-4 border-white shadow-lg overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 cursor-pointer group">
             {user?.avatar_url || tempAvatar ? (
               <img 
                 src={tempAvatar || user.avatar_url} 
                 alt={user?.username}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+                onClick={isEditing ? handleAvatarClick : undefined}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <User className="w-16 h-16 text-slate-400" />
+              <div 
+                className="w-full h-full flex items-center justify-center group-hover:bg-slate-200 transition-colors"
+                onClick={isEditing ? handleAvatarClick : undefined}
+              >
+                <Camera className="w-16 h-16 text-slate-400 group-hover:text-slate-600" />
               </div>
             )}
             
             {isEditing && (
-              <label className="absolute bottom-2 right-2 cursor-pointer">
-                <div className="p-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                  <Upload className="w-4 h-4 text-slate-600" />
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleAvatarUpload}
-                  />
+              <>
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={onAvatarUpload}
+                />
+                <div className="absolute bottom-2 right-2">
+                  <div className="p-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <Upload className="w-4 h-4 text-slate-600" />
+                  </div>
                 </div>
-              </label>
+              </>
             )}
           </div>
           
@@ -136,24 +182,30 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
         {/* User Info */}
         <div className="flex-1 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
+            <div className="space-y-2">
               {isEditing ? (
                 <input
                   type="text"
-                  defaultValue={user?.username}
-                  className="text-3xl font-bold bg-transparent border-b-2 border-red-200 focus:border-red-500 outline-none font-montserrat"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="text-3xl font-bold bg-transparent border-b-2 border-red-200 focus:border-red-500 outline-none font-montserrat w-full"
+                  placeholder="Username"
                 />
               ) : (
                 <h1 className="text-3xl font-bold text-slate-900 font-montserrat">
-                  {user?.username}
+                  {user?.username || 'Anonymous User'}
                 </h1>
               )}
               
               {isEditing ? (
                 <input
                   type="email"
-                  defaultValue={user?.email}
-                  className="mt-1 text-slate-600 bg-transparent border-b border-slate-200 focus:border-red-300 outline-none font-poppins"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="mt-1 text-slate-600 bg-transparent border-b border-slate-200 focus:border-red-300 outline-none font-poppins w-full"
+                  placeholder="Email"
                 />
               ) : (
                 <p className="mt-1 text-slate-600 font-poppins flex items-center gap-2">
@@ -167,7 +219,7 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
               {isEditing ? (
                 <>
                   <Button
-                    onClick={onSave}
+                    onClick={() => onSave(formData)}
                     className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
                   >
                     <Check className="w-4 h-4 mr-2" />
@@ -193,6 +245,23 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
             </div>
           </div>
 
+          {/* Bio Section */}
+          {isEditing && (
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Bio
+              </label>
+              <textarea
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
+                className="w-full p-3 border border-slate-200 rounded-lg focus:border-red-300 focus:ring-2 focus:ring-red-200 outline-none font-poppins"
+                rows="3"
+                placeholder="Tell us about yourself..."
+              />
+            </div>
+          )}
+
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 p-4">
@@ -207,7 +276,7 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
             
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 p-4">
               <div className="text-2xl font-bold text-amber-700 font-montserrat">
-                12
+                {user?.achievements_count || 0}
               </div>
               <div className="text-sm text-slate-600 font-poppins flex items-center gap-2">
                 <Award className="w-3 h-3" />
@@ -217,7 +286,7 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
             
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 p-4">
               <div className="text-2xl font-bold text-blue-700 font-montserrat">
-                8
+                {user?.connections_count || 0}
               </div>
               <div className="text-sm text-slate-600 font-poppins flex items-center gap-2">
                 <UsersIcon className="w-3 h-3" />
@@ -227,7 +296,7 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
             
             <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 p-4">
               <div className="text-2xl font-bold text-emerald-700 font-montserrat">
-                95%
+                {user?.profile_score || '0%'}
               </div>
               <div className="text-sm text-slate-600 font-poppins flex items-center gap-2">
                 <TrendingUp className="w-3 h-3" />
@@ -242,7 +311,17 @@ function ProfileHeader({ user, startupCount, isEditing, setIsEditing, onSave }) 
 }
 
 // Startup Card Component
-function StartupCard({ startup, onEdit }) {
+function StartupCard({ startup, onEdit, onDelete }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this startup?')) {
+      setIsDeleting(true);
+      await onDelete(startup.id);
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -287,12 +366,23 @@ function StartupCard({ startup, onEdit }) {
               {startup.tagline || startup.description}
             </p>
           </div>
-          <button
-            onClick={() => onEdit(startup)}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-          >
-            <Edit2 className="w-4 h-4 text-slate-400" />
-          </button>
+          <div className="flex gap-1">
+            <button
+              onClick={() => onEdit(startup)}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              title="Edit"
+            >
+              <Edit2 className="w-4 h-4 text-slate-400" />
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+              title="Delete"
+            >
+              <Trash2 className="w-4 h-4 text-red-400" />
+            </button>
+          </div>
         </div>
 
         {/* Details Grid */}
@@ -323,15 +413,19 @@ function StartupCard({ startup, onEdit }) {
             size="sm" 
             variant="outline"
             className="flex-1 border-slate-200 hover:border-red-300 hover:bg-red-50"
+            onClick={() => window.open(`/startup/${startup.id}`, '_blank')}
           >
             View Details
           </Button>
-          <Button 
-            size="sm"
-            className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-          >
-            Pitch Deck
-          </Button>
+          {startup.pitch_deck_url && (
+            <Button 
+              size="sm"
+              className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+              onClick={() => window.open(startup.pitch_deck_url, '_blank')}
+            >
+              Pitch Deck
+            </Button>
+          )}
         </div>
       </div>
     </motion.div>
@@ -339,7 +433,7 @@ function StartupCard({ startup, onEdit }) {
 }
 
 // Settings Panel Component
-function SettingsPanel({ user }) {
+function SettingsPanel({ user, onSettingsUpdate, onLogout, onChangePassword, onDeleteAccount }) {
   const [settings, setSettings] = useState({
     emailNotifications: true,
     startupAlerts: true,
@@ -347,6 +441,49 @@ function SettingsPanel({ user }) {
     privacy: 'public',
     twoFactor: false,
   });
+
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSettingsChange = (key, value) => {
+    const newSettings = { ...settings, [key]: value };
+    setSettings(newSettings);
+    onSettingsUpdate(newSettings);
+  };
+
+  const handlePasswordChange = async () => {
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: passwordData.newPassword
+      });
+
+      if (error) throw error;
+
+      toast.success('Password updated successfully');
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -360,7 +497,7 @@ function SettingsPanel({ user }) {
             <div key={key} className="flex items-center justify-between">
               <div>
                 <div className="font-medium text-slate-800 font-poppins">
-                  {key.split(/(?=[A-Z])/).join(' ')}
+                  {key.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                 </div>
                 <div className="text-sm text-slate-500">
                   Receive notifications for {key}
@@ -370,7 +507,7 @@ function SettingsPanel({ user }) {
                 <input
                   type="checkbox"
                   checked={value}
-                  onChange={(e) => setSettings({...settings, [key]: e.target.checked})}
+                  onChange={(e) => handleSettingsChange(key, e.target.checked)}
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
@@ -380,23 +517,89 @@ function SettingsPanel({ user }) {
         </div>
       </div>
 
-      {/* Account Security */}
+      {/* Change Password */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6">
         <h3 className="text-lg font-bold text-slate-900 font-montserrat mb-4">
-          Account Security
+          Change Password
         </h3>
         <div className="space-y-4">
-          <Button variant="outline" className="w-full justify-between">
-            <span>Change Password</span>
-            <Settings className="w-4 h-4" />
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Current Password
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={passwordData.currentPassword}
+                onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                className="w-full p-3 border border-slate-200 rounded-lg focus:border-red-300 focus:ring-2 focus:ring-red-200 outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-slate-400"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              New Password
+            </label>
+            <input
+              type="password"
+              value={passwordData.newPassword}
+              onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+              className="w-full p-3 border border-slate-200 rounded-lg focus:border-red-300 focus:ring-2 focus:ring-red-200 outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              value={passwordData.confirmPassword}
+              onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+              className="w-full p-3 border border-slate-200 rounded-lg focus:border-red-300 focus:ring-2 focus:ring-red-200 outline-none"
+            />
+          </div>
+
+          <Button
+            onClick={handlePasswordChange}
+            className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+          >
+            <Lock className="w-4 h-4 mr-2" />
+            Update Password
           </Button>
-          <Button variant="outline" className="w-full justify-between">
-            <span>Two-Factor Authentication</span>
-            <Shield className="w-4 h-4" />
+        </div>
+      </div>
+
+      {/* Account Actions */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6">
+        <h3 className="text-lg font-bold text-slate-900 font-montserrat mb-4">
+          Account Actions
+        </h3>
+        <div className="space-y-4">
+          <Button 
+            variant="outline" 
+            className="w-full justify-between"
+            onClick={onLogout}
+          >
+            <span>Sign Out</span>
+            <LogOut className="w-4 h-4" />
           </Button>
-          <Button variant="outline" className="w-full justify-between text-red-600 border-red-200 hover:bg-red-50">
+          
+          <Button 
+            variant="outline" 
+            className="w-full justify-between text-red-600 border-red-200 hover:bg-red-50"
+            onClick={onDeleteAccount}
+          >
             <span>Delete Account</span>
-            <X className="w-4 h-4" />
+            <Trash2 className="w-4 h-4" />
           </Button>
         </div>
       </div>
@@ -411,49 +614,274 @@ export default function ProfilePage() {
   const [startups, setStartups] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [tempAvatar, setTempAvatar] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [activities, setActivities] = useState([]);
+  const router = useNavigate();
 
   useEffect(() => {
     fetchUserData();
+    fetchActivities();
   }, []);
 
   const fetchUserData = async () => {
     try {
-      // Fetch user session
       const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        // Fetch user profile from public.users
-        const { data: userData } = await supabase
+      if (!session) {
+        router("/");
+        return;
+      }
+
+      // Fetch user profile
+      const { data: userData } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+
+      if (!userData) {
+        // Create user profile if it doesn't exist
+        const { data: newUser } = await supabase
           .from('users')
-          .select('*')
-          .eq('id', session.user.id)
+          .insert([
+            {
+              id: session.user.id,
+              email: session.user.email,
+              username: session.user.email?.split('@')[0] || 'user'
+            }
+          ])
+          .select()
           .single();
 
+        setUser(newUser);
+      } else {
         setUser(userData);
-
-        // Fetch user's startups
-        const { data: startupsData } = await supabase
-          .from('startups')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .order('created_at', { ascending: false });
-
-        setStartups(startupsData || []);
       }
+
+      // Fetch user's startups
+      const { data: startupsData } = await supabase
+        .from('startups')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false });
+
+      setStartups(startupsData || []);
     } catch (error) {
       console.error('Error fetching user data:', error);
+      toast.error('Failed to load profile data');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSaveProfile = async () => {
-    // Implement save logic to update user in public.users
-    setIsEditing(false);
+  const fetchActivities = async () => {
+    try {
+      // Fetch recent activities
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        // You can create an activities table or use existing data
+        // For now, we'll use static data
+        setActivities([
+          { id: 1, action: 'Updated startup profile', time: '2 hours ago', icon: Edit2 },
+          { id: 2, action: 'Added new team member', time: '1 day ago', icon: UsersIcon },
+          { id: 3, action: 'Uploaded pitch deck', time: '3 days ago', icon: FileText },
+          { id: 4, action: 'Received investor inquiry', time: '1 week ago', icon: DollarSign },
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    }
+  };
+
+  const handleSaveProfile = async (formData) => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Please login to save changes');
+        return;
+      }
+
+      // Update user profile
+      const { error } = await supabase
+        .from('users')
+        .update({
+          username: formData.username,
+          email: formData.email,
+          bio: formData.bio,
+          location: formData.location,
+          website: formData.website,
+          phone: formData.phone,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', session.user.id);
+
+      if (error) throw error;
+
+      // Update email in auth if changed
+      if (formData.email !== user.email) {
+        const { error: authError } = await supabase.auth.updateUser({
+          email: formData.email
+        });
+
+        if (authError) throw authError;
+      }
+
+      setUser(prev => ({ ...prev, ...formData }));
+      setIsEditing(false);
+      toast.success('Profile updated successfully');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast.error(error.message || 'Failed to update profile');
+    }
+  };
+
+  const handleAvatarUpload = async (e) => {
+    try {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      setUploading(true);
+
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Please login to upload avatar');
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size should be less than 5MB');
+        return;
+      }
+
+      // Preview image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTempAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${session.user.id}-${Date.now()}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('profiles')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('profiles')
+        .getPublicUrl(filePath);
+
+      // Update user profile with avatar URL
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ avatar_url: publicUrl })
+        .eq('id', session.user.id);
+
+      if (updateError) throw updateError;
+
+      setUser(prev => ({ ...prev, avatar_url: publicUrl }));
+      setTempAvatar(null);
+      toast.success('Avatar updated successfully');
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      toast.error('Failed to upload avatar');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleEditStartup = (startup) => {
-    // Navigate to startup edit page
-    console.log('Edit startup:', startup);
+    router(`/startup/edit/${startup.id}`);   
+  };
+
+  const handleDeleteStartup = async (startupId) => {
+    try {
+      const { error } = await supabase
+        .from('startups')
+        .delete()
+        .eq('id', startupId);
+
+      if (error) throw error;
+
+      setStartups(prev => prev.filter(s => s.id !== startupId));
+      toast.success('Startup deleted successfully');
+    } catch (error) {
+      console.error('Error deleting startup:', error);
+      toast.error('Failed to delete startup');
+    }
+  };
+
+  const handleSettingsUpdate = async (settings) => {
+    try {
+      // Save settings to user profile or a separate settings table
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { error } = await supabase
+          .from('users')
+          .update({ settings: JSON.stringify(settings) })
+          .eq('id', session.user.id);
+
+        if (error) throw error;
+        toast.success('Settings updated');
+      }
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      toast.error('Failed to update settings');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      router('/login');
+      toast.success('Logged out successfully');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast.error('Failed to logout');
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Delete user's startups first
+      await supabase
+        .from('startups')
+        .delete()
+        .eq('user_id', session.user.id);
+
+      // Delete user profile
+      await supabase
+        .from('users')
+        .delete()
+        .eq('id', session.user.id);
+
+      // Delete auth user
+      await supabase.auth.admin.deleteUser(session.user.id);
+
+      await supabase.auth.signOut();
+      router('/');
+      toast.success('Account deleted successfully');
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      toast.error('Failed to delete account');
+    }
+  };
+
+  const handleCreateStartup = () => {
+    router('/');
   };
 
   if (loading) {
@@ -466,6 +894,8 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-red-50/30 to-blue-50/30">
+      <Toaster position="top-right" />
+      
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-100/10 via-transparent to-transparent" />
       <div className="absolute inset-0 bg-grid-slate-100/50 [mask-image:linear-gradient(0deg,white,transparent_70%)]" />
@@ -490,7 +920,7 @@ export default function ProfilePage() {
               
               <Button
                 className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                onClick={() => {/* Navigate to create startup */}}
+                onClick={handleCreateStartup}
               >
                 <Briefcase className="w-4 h-4 mr-2" />
                 Add Startup
@@ -509,6 +939,8 @@ export default function ProfilePage() {
               isEditing={isEditing}
               setIsEditing={setIsEditing}
               onSave={handleSaveProfile}
+              onAvatarUpload={handleAvatarUpload}
+              tempAvatar={tempAvatar}
             />
 
             {/* Tab Content */}
@@ -530,14 +962,6 @@ export default function ProfilePage() {
                       <p className="text-slate-600 font-poppins leading-relaxed">
                         {user?.bio || "No bio added yet. Tell us about yourself!"}
                       </p>
-                      {isEditing && (
-                        <textarea
-                          className="mt-4 w-full p-3 border border-slate-200 rounded-lg focus:border-red-300 outline-none font-poppins"
-                          rows="4"
-                          placeholder="Tell us about yourself..."
-                          defaultValue={user?.bio}
-                        />
-                      )}
                     </div>
 
                     {/* Recent Activity */}
@@ -546,15 +970,10 @@ export default function ProfilePage() {
                         Recent Activity
                       </h3>
                       <div className="space-y-4">
-                        {[
-                          { action: 'Updated startup profile', time: '2 hours ago', icon: Edit2 },
-                          { action: 'Added new team member', time: '1 day ago', icon: UsersIcon },
-                          { action: 'Uploaded pitch deck', time: '3 days ago', icon: FileText },
-                          { action: 'Received investor inquiry', time: '1 week ago', icon: DollarSign },
-                        ].map((activity, index) => {
+                        {activities.map((activity) => {
                           const Icon = activity.icon;
                           return (
-                            <div key={index} className="flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors">
+                            <div key={activity.id} className="flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors">
                               <div className="p-2 bg-red-50 rounded-lg">
                                 <Icon className="w-4 h-4 text-red-600" />
                               </div>
@@ -583,37 +1002,45 @@ export default function ProfilePage() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-slate-600 font-poppins">Profile Views</span>
-                          <span className="font-bold text-slate-900">1,247</span>
+                          <span className="font-bold text-slate-900">{user?.profile_views || 0}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-slate-600 font-poppins">Investor Leads</span>
-                          <span className="font-bold text-slate-900">8</span>
+                          <span className="font-bold text-slate-900">{user?.investor_leads || 0}</span>
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-slate-600 font-poppins">Mentor Sessions</span>
-                          <span className="font-bold text-slate-900">12</span>
+                          <span className="font-bold text-slate-900">{user?.mentor_sessions || 0}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Documents */}
+                    {/* Contact Info */}
                     <div className="bg-white rounded-2xl border border-slate-200 p-6">
                       <h3 className="text-lg font-bold text-slate-900 font-montserrat mb-4">
-                        Documents
+                        Contact Information
                       </h3>
-                      <div className="space-y-2">
-                        <Button variant="outline" className="w-full justify-between">
-                          <span>Resume/CV</span>
-                          <FileText className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" className="w-full justify-between">
-                          <span>Portfolio</span>
-                          <ImageIcon className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" className="w-full justify-between">
-                          <span>Video Intro</span>
-                          <Video className="w-4 h-4" />
-                        </Button>
+                      <div className="space-y-3">
+                        {user?.location && (
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <MapPin className="w-4 h-4" />
+                            <span>{user.location}</span>
+                          </div>
+                        )}
+                        {user?.website && (
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <Link className="w-4 h-4" />
+                            <a href={user.website} target="_blank" rel="noopener noreferrer" className="hover:text-red-600">
+                              {user.website}
+                            </a>
+                          </div>
+                        )}
+                        {user?.phone && (
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <Phone className="w-4 h-4" />
+                            <span>{user.phone}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -627,11 +1054,13 @@ export default function ProfilePage() {
                       My Startups ({startups.length})
                     </h2>
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        Filter
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        Sort
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={handleCreateStartup}
+                      >
+                        <Briefcase className="w-4 h-4 mr-2" />
+                        Create New
                       </Button>
                     </div>
                   </div>
@@ -647,6 +1076,7 @@ export default function ProfilePage() {
                       </p>
                       <Button
                         className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                        onClick={handleCreateStartup}
                       >
                         Create Your First Startup
                       </Button>
@@ -658,6 +1088,7 @@ export default function ProfilePage() {
                           key={startup.id}
                           startup={startup}
                           onEdit={handleEditStartup}
+                          onDelete={handleDeleteStartup}
                         />
                       ))}
                     </div>
@@ -666,7 +1097,12 @@ export default function ProfilePage() {
               )}
 
               {activeTab === 'settings' && (
-                <SettingsPanel user={user} />
+                <SettingsPanel 
+                  user={user}
+                  onSettingsUpdate={handleSettingsUpdate}
+                  onLogout={handleLogout}
+                  onDeleteAccount={handleDeleteAccount}
+                />
               )}
             </motion.div>
           </div>
