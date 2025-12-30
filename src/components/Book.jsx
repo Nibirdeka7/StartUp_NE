@@ -282,7 +282,7 @@ CombinedBookShowcase = () => {
                       45% OFF
                     </span>
                   </div>
-                  <p className="text-slate-500 text-sm mt-2 font-poppins">Free shipping across India • Instant digital access</p>
+                  <p className="text-slate-500 text-sm mt-2 font-poppins">Instant digital access</p>
                 </div>
 
                 {/* Features */}
@@ -290,8 +290,8 @@ CombinedBookShowcase = () => {
                   {[
                     "Step-by-step 6-month plan",
                     "Funding strategies for NE startups",
-                    "Success stories from NE entrepreneurs",
-                    "Lifetime updates included"
+                    "Checklist for Action items",
+                    "Startup Tools and Schemes"
                   ].map((feature, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>

@@ -44,6 +44,14 @@ export function ServicesGrid({ onServiceClick }) {
       category: "Registration"
     },
     {
+      title: "branding consultation",
+      price: "₹15,000",
+      icon: Building2,
+      color: "from-red-600 to-red-800",
+      description: "My Assam Startup ID by Govt of Assam",
+      category: "Registration"
+    },
+    {
       title: "Trademark Registration",
       price: "₹10,000",
       icon: FileText,
@@ -65,6 +73,14 @@ export function ServicesGrid({ onServiceClick }) {
       icon: FileText,
       color: "from-blue-600 to-blue-800",
       description: "Comprehensive patent analysis",
+      category: "Legal"
+    },
+    {
+      title: "Valuation Report",
+      price: "₹40,000",
+      icon: FileText,
+      color: "from-blue-600 to-blue-800",
+      description: "CA Certified Share certificate ",
       category: "Legal"
     },
     {
@@ -140,6 +156,14 @@ export function ServicesGrid({ onServiceClick }) {
       category: "Consulting"
     },
     {
+      title: "Branding Consultation",
+      price: "₹15,000",
+      icon: DollarSign,
+      color: "from-amber-600 to-amber-800",
+      description: "Brand Establishment Guidance",
+      category: "Consulting"
+    },
+    {
       title: "Website Development",
       price: "₹30,000",
       icon: Code,
@@ -186,6 +210,15 @@ export function ServicesGrid({ onServiceClick }) {
       color: "from-pink-600 to-pink-800",
       description: "Recruitment and talent acquisition",
       category: "HR"
+    }
+    ,
+    {
+      title: "1-1 Mentorship",
+      price: "₹6,000",
+      icon: Users,
+      color: "from-pink-600 to-pink-800",
+      description: "Get business mentors across India",
+      category: "Mentorship"
     }
   ];
 

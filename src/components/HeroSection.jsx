@@ -76,7 +76,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                   transition={{ delay: 0.4 }}
                   className="text-base md:text-lg text-slate-600 leading-relaxed font-poppins pr-0 lg:pr-8"
                 >
-                  Join India's fastest-growing startup ecosystem.
+                  Join India's fastest growing startup ecosystem.
                   <Highlight className="text-black dark:text-white"> Get funding, mentorship, and resources</Highlight>
                   to scale your venture from the heart of Northeast India.
                 </motion.div>
@@ -121,7 +121,7 @@ export function HeroSection({ onNavigate, onListStartupClick }) {
                 className="grid grid-cols-3 gap-3 pt-6 border-t border-slate-100"
               >
                 {[
-                  { value: "150+", label: "Startups", color: "text-red-700" },
+                  { value: "2000+", label: "Startups", color: "text-red-700" },
                   { value: "₹50Cr+", label: "Funding", color: "text-amber-700" },
                   { value: "8", label: "States", color: "text-blue-700" }
                 ].map((stat, index) => (

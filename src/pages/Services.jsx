@@ -108,7 +108,7 @@ export function ServicesPage() {
         {/* Stats - Original Beautiful Design */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 md:mb-12">
           {[
-            { value: "500+", label: "Startups Served", icon: <Rocket className="w-4 h-4" /> },
+            { value: "50+", label: "Startups Served", icon: <Rocket className="w-4 h-4" /> },
             { value: "98%", label: "Satisfaction Rate", icon: <Star className="w-4 h-4" /> },
             { value: "24h", label: "Avg. Response Time", icon: <Clock className="w-4 h-4" /> },
             { value: "4.9★", label: "Service Rating", icon: <BadgeCheck className="w-4 h-4" /> }
