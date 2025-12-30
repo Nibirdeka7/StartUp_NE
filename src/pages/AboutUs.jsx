@@ -87,31 +87,42 @@ export function AboutPage() {
   const team = [
     {
       name: "Gourangon Gogoi",
-      role: "Founder & CEO",
-      expertise: "Ecosystem Architecture & Strategy",
+      role: "Service Provider",
+      expertise: "Handles clients, startups and operations",
       initials: "GG",
-      image: "abc",
-      linkedin: "",
+      image: "https://res.cloudinary.com/dsnjjxtkk/image/upload/v1767088674/1730478715995_om79dw.jpg",
+      linkedin: "https://www.linkedin.com/in/gourangon-gogoi-7264091a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app ",
       instagram: "",
       email: "",
     },
     {
-      name: "John Doe",
-      role: "Head of Operations",
-      expertise: "Growth Strategy & Execution",
+      name: "Kaushik Khanikar",
+      role: "Startup Partner",
+      expertise: "Handles the ecosystem of Startup Northeast",
       initials: "JD",
-      image: "abc",
-      linkedin: "",
+      image: "https://res.cloudinary.com/dsnjjxtkk/image/upload/v1767088635/1734865122380_yokzbf.jpg",
+      linkedin: "https://www.linkedin.com/in/kaushikkhanikar?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       instagram: "",
       email: "",
     },
     {
       name: "Nibir Deka",
-      role: "Technology Director",
-      expertise: "Digital Infrastructure & Innovation",
+      role: "Technology Architect",
+      expertise: "Builds and maintains new useful features",
       initials: "ND",
       image: "https://res.cloudinary.com/dp4sknsba/image/upload/v1766911208/NibirDeka_2_2412007.jpeg_ckggov.jpg",
       linkedin: "",
+      instagram: "",
+      email: "",
+    }
+    ,
+    {
+      name: "Rubul Haque Choudhury",
+      role: "Reporting Manager ",
+      expertise: "Ensure smooth operation with daily updates",
+      initials: "ND",
+      image: "https://res.cloudinary.com/dsnjjxtkk/image/upload/v1767088583/1740056293651_lrqqtl.jpg",
+      linkedin: "https://www.linkedin.com/in/rubulhoquechoudhury?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       instagram: "",
       email: "",
     }
@@ -127,9 +138,9 @@ export function AboutPage() {
     },
     { 
       year: "2026", 
-      title: "Launch & Traction", 
+      title: "Growth ", 
       description: "Official launch",
-      stat: "70+ Startups",
+      stat: "3000+ Startups",
       icon: Rocket
     }
   ];
@@ -248,19 +259,15 @@ export function AboutPage() {
                 
                 <div className="space-y-6">
                   <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                    Founded in 2023, Startup Northeast was born from a fundamental observation: 
-                    Northeast India possesses immense entrepreneurial talent and innovative potential, 
-                    yet lacks the structured ecosystem support needed to thrive.
+                   Founded in December 2025, Startup Northeast was born from a fundamental observation: Northeast India possesses immense entrepreneurial talent and innovative potential, yet lacks the structured ecosystem support needed to thrive.
                   </p>
                   <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                    We envisioned a platform that goes beyond traditional incubators a comprehensive 
-                    ecosystem that provides end-to-end support from ideation to scale, with a deep 
-                    understanding of regional dynamics and global market demands.
+                    We envisioned a platform that goes beyond traditional practices, a comprehensive ecosystem that provides end-to-end support from ideation to scale, with a deep understanding of regional dynamics and global market demands.
+
                   </p>
                   <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                    Today, we stand as the region's most trusted partner for ambitious founders, 
-                    having facilitated over ₹50 crores in funding and built a network spanning all 
-                    eight Northeastern states.
+                    Today, we stand as the region's most trusted partner for ambitious founders, having a network spanning all eight Northeastern states.
+
                   </p>
                 </div>
               </div>
@@ -319,9 +326,7 @@ export function AboutPage() {
                   <div>
                     <h3 className="text-2xl font-bold text-slate-900 mb-4 font-montserrat">Our Mission</h3>
                     <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                      To systematically dismantle barriers to entrepreneurship in Northeast India by 
-                      providing founders with strategic resources, smart capital, and market access 
-                      needed to build scalable, globally competitive ventures.
+                      Empowering Northeast Indian founders with the capital, resources, and market access to build world-class startups.
                     </p>
                   </div>
                 </div>
@@ -337,9 +342,7 @@ export function AboutPage() {
                   <div>
                     <h3 className="text-2xl font-bold text-slate-900 mb-4 font-montserrat">Our Vision</h3>
                     <p className="text-slate-600 leading-relaxed text-lg font-poppins">
-                      To establish Northeast India as Asia's foremost hub for sustainable innovation 
-                      and entrepreneurship, recognized for producing world-class startups that solve 
-                      meaningful problems and drive inclusive economic growth.
+                      Making Northeast India Asia’s hub for sustainable startups that solve real problems and drive growth for all.
                     </p>
                   </div>
                 </div>
@@ -513,7 +516,7 @@ export function AboutPage() {
                   {/* Mail Redirect Trigger */}
                   <a 
                     href={`mailto:${member.email}`}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white flex items-center justify-center text-black shadow-lg hover:bg-red-600 hover:text-white transition-all duration-300 active:scale-90 flex-shrink-0"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center text-black shadow-lg hover:bg-red-600 hover:text-white transition-all duration-300 active:scale-90 flex-shrink-0"
                   >
                     <Mail className="w-5 h-5" />
                   </a>

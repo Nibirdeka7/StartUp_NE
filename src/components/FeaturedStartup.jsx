@@ -18,41 +18,41 @@ export function FeaturedStartups({ onNavigate }) {
 
   const startups = [
     {
-      name: "AgroTech NE",
-      sector: "AgriTech",
-      stage: "Series A",
-      location: "Guwahati, Assam",
-      funding: "₹5 Cr",
-      description: "AI-powered solutions for Northeast farmers",
-      logo: "🌾",
+      name: "Addble Solutions Private Limited",
+      sector: "Technology",
+      stage: "Growth",
+      location: "Imphal, Manipur",
+      valuation: "₹12 Cr",
+      description: "Leading e commerce platform provider",
+      logo: "👨🏼‍💻",
       id: "1fd404d3-25f5-4acd-a86c-4f51ca02b85d"
     },
     {
-      name: "Bamboo Innovations",
-      sector: "Sustainability",
-      stage: "Seed",
-      location: "Imphal, Manipur",
-      funding: "₹1.5 Cr",
-      description: "Eco-friendly bamboo products",
-      logo: "🎋",
+      name: "Darbu Music App",
+      sector: "Information Technology",
+      stage: "Growth",
+      location: "Aizawl, Mizoram",
+      valuation: "₹6 Cr",
+      description: "Music streaming platform for artists",
+      logo: "🎶",
       id: "345"
     },
     {
-      name: "HealthConnect NE",
-      sector: "HealthTech",
-      stage: "Seed",
-      location: "Aizawl, Mizoram",
-      funding: "₹3 Cr",
-      description: "Telemedicine for remote areas",
-      logo: "🏥",
+      name: "House of Macnok",
+      sector: "Handloom and Handicrafts",
+      stage: "Growth",
+      location: "Itanagar, Arunachal Pradesh ",
+      valuation: "₹6 Cr",
+      description: "Eco friendly lifestyle and wellness",
+      logo: "♻️",
       id: "567"
     },
     {
-      name: "NE Craft Hub",
-      sector: "E-commerce",
+      name: "Treemate",
+      sector: "AgriTech",
       stage: "Pre-Seed",
-      location: "Shillong, Meghalaya",
-      funding: "₹75 L",
+      location: "Assam",
+      valuation: "₹8 Cr",
       description: "Digital marketplace for handicrafts",
       logo: "🛍️",
       id: "879"
@@ -188,7 +188,7 @@ export function FeaturedStartups({ onNavigate }) {
                           </Badge>
                           <Badge variant="outline" className="text-xs gap-1 border-red-200 text-slate-700">
                             <TrendingUp className="w-3 h-3" />
-                            {startup.funding}
+                            {startup.valuation}
                           </Badge>
                         </div>
 
