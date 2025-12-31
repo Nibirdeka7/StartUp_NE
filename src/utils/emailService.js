@@ -1,7 +1,4 @@
 import emailjs from '@emailjs/browser';
-
-// Initialize EmailJS with your public key
-// You can also use environment variables
 emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
 
 /**
