@@ -12,7 +12,7 @@ import { motion } from "motion/react";
 
 export function ServicesPage() {
   // WhatsApp business number
-  const WHATSAPP_NUMBER = "+918822837774";
+  const WHATSAPP_NUMBER = "+919957172045";
 
   // Service benefits with the original beautiful design
   const serviceBenefits = [
