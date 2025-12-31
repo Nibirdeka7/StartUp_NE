@@ -111,9 +111,9 @@ export function AboutPage() {
       expertise: "Builds and maintains new useful features",
       initials: "ND",
       image: "https://res.cloudinary.com/dp4sknsba/image/upload/v1766911208/NibirDeka_2_2412007.jpeg_ckggov.jpg",
-      linkedin: "",
-      instagram: "",
-      email: "",
+      linkedin: "https://www.linkedin.com/in/nibir-deka-0a8636331/",
+      instagram: "https://www.instagram.com/nibir_deka_07/",
+      email: "nibirdeka70@gmail.com",
     }
     ,
     {
