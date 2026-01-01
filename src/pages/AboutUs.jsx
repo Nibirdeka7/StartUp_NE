@@ -145,10 +145,9 @@ export function AboutPage() {
     }
   ];
 
-  // Handle Start Journey Click - same logic as Home component
   const handleStartJourneyClick = () => {
     if (!user) {
-      setIsAuthModalOpen(true); // Force login if not authenticated
+      setIsAuthModalOpen(true);
     } else {
       setIsListStartupModalOpen(true);
     }
