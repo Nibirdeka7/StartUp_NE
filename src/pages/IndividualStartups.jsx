@@ -586,7 +586,6 @@ export function StartupDetail() {
             <div className="w-20 h-20 rounded-full bg-gradient-to-r from-red-100 to-red-200 animate-pulse mb-4 mx-auto flex items-center justify-center">
               <Building2 className="w-8 h-8 text-red-400" />
             </div>
-            {/* <div className="absolute inset-0 border-4 border-red-200 border-t-red-500 rounded-full animate-spin"></div> */}
           </div>
           <h3 className="text-lg font-semibold text-slate-700 mt-4">Loading Startup</h3>
           <p className="text-slate-500">Fetching details...</p>
