@@ -1,11 +1,10 @@
 {
   "name": "Startup Northeast",
-  "short_name": "MyApp",
-  "description": "A cool web app built with love",
+  "short_name": "Startup_NE",
+  "description": "The official platform for the Northeast India startup ecosystem. Find funding, government schemes, mentors, and incubators in Assam, Manipur, Meghalaya, and across the 8 states.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0f172a",
   "orientation": "portrait",
   "icons": [
     {
