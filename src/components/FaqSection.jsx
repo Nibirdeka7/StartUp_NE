@@ -231,8 +231,8 @@ function FAQSection() {
           {/* Quick Contact Info - Mobile Only */}
           <div className="mt-8 sm:hidden">
             <div className="text-sm text-slate-500 font-poppins">
-              <p className="mb-2">📧 support@startupne.com</p>
-              <p>📞 +91 123 456 7890</p>
+              <p className="mb-2">📧 connect.startupnortheast@gmail.com</p>
+              <p>📞 +91 9957172045</p>
             </div>
           </div>
         </div>

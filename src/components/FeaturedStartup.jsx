@@ -35,7 +35,7 @@ export function FeaturedStartups({ onNavigate }) {
       valuation: "₹6 Cr",
       description: "Music streaming platform for artists",
       logo: "🎶",
-      id: "345"
+      id: "1fd404d3-25f5-4acd-a86c-4f51ca02b85d"
     },
     {
       name: "House of Macnok",
@@ -45,7 +45,7 @@ export function FeaturedStartups({ onNavigate }) {
       valuation: "₹6 Cr",
       description: "Eco friendly lifestyle and wellness",
       logo: "♻️",
-      id: "567"
+      id: "1fd404d3-25f5-4acd-a86c-4f51ca02b85d"
     },
     {
       name: "Treemate",
@@ -55,7 +55,7 @@ export function FeaturedStartups({ onNavigate }) {
       valuation: "₹8 Cr",
       description: "Digital marketplace for handicrafts",
       logo: "🛍️",
-      id: "879"
+      id: "1fd404d3-25f5-4acd-a86c-4f51ca02b85d"
     },
   ];
 
